@@ -1,0 +1,30 @@
+{
+  "provinceCode": "gd",
+  "scores": {
+    "u008": [
+      { "year": 2023, "score": 673, "rank": 820 },
+      { "year": 2022, "score": 670, "rank": 860 },
+      { "year": 2021, "score": 676, "rank": 780 }
+    ],
+    "u009": [
+      { "year": 2023, "score": 630, "rank": 4000 },
+      { "year": 2022, "score": 626, "rank": 4300 },
+      { "year": 2021, "score": 632, "rank": 3900 }
+    ],
+    "u010": [
+      { "year": 2023, "score": 664, "rank": 1200 },
+      { "year": 2022, "score": 660, "rank": 1350 },
+      { "year": 2021, "score": 668, "rank": 1100 }
+    ],
+    "u011": [
+      { "year": 2023, "score": 606, "rank": 9500 },
+      { "year": 2022, "score": 602, "rank": 10050 },
+      { "year": 2021, "score": 610, "rank": 9200 }
+    ],
+    "u012": [
+      { "year": 2023, "score": 620, "rank": 5900 },
+      { "year": 2022, "score": 616, "rank": 6400 },
+      { "year": 2021, "score": 622, "rank": 5600 }
+    ]
+  }
+}

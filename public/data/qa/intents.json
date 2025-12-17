@@ -1,0 +1,80 @@
+[
+  {
+    "id": "greeting",
+    "keywords": ["你好", "您好", "在吗", "开始", "帮助", "嗨", "hi", "hello"],
+    "regex": [],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "greeting"
+  },
+  {
+    "id": "admissions_plan",
+    "keywords": ["志愿", "填报", "冲稳保", "梯度", "院校库", "报考", "admissions"],
+    "regex": [],
+    "negative": ["不聊志愿"],
+    "requiredSlots": ["score"],
+    "templateGroup": "admissions_plan",
+    "slotPrompts": { "score": "slot_score" }
+  },
+  {
+    "id": "scoreline",
+    "keywords": ["分数线", "录取线", "位次", "多少分", "分能上", "分能报", "scoreline"],
+    "regex": ["\\d{3}分"],
+    "negative": [],
+    "requiredSlots": ["uni"],
+    "templateGroup": "scoreline",
+    "slotPrompts": { "uni": "slot_uni" }
+  },
+  {
+    "id": "school_compare",
+    "keywords": ["对比", "比较", "哪个好", "差异", "选择哪所", "pk"],
+    "regex": ["(清华|北大|复旦|中山大学|华南理工|深圳大学)"],
+    "negative": [],
+    "requiredSlots": ["uni"],
+    "templateGroup": "school_compare",
+    "slotPrompts": { "uni": "slot_uni" }
+  },
+  {
+    "id": "major_choice",
+    "keywords": ["专业", "学什么", "选什么专业", "前景", "就业", "方向", "major"],
+    "regex": [],
+    "negative": [],
+    "requiredSlots": ["major"],
+    "templateGroup": "major_choice",
+    "slotPrompts": { "major": "slot_major" }
+  },
+  {
+    "id": "career_understanding",
+    "keywords": ["职业", "工作", "岗位", "做什么", "就业", "career"],
+    "regex": [],
+    "negative": [],
+    "requiredSlots": ["career"],
+    "templateGroup": "career_understanding",
+    "slotPrompts": { "career": "slot_career" }
+  },
+  {
+    "id": "mbti_interpret",
+    "keywords": ["mbti", "性格", "人格", "类型", "测评"],
+    "regex": ["\\b[ei]nt[jp]\\b", "\\b[ei]nf[jp]\\b", "\\b[ei]st[jp]\\b", "\\b[ei]sf[jp]\\b"],
+    "negative": [],
+    "requiredSlots": ["mbti"],
+    "templateGroup": "mbti_interpret",
+    "slotPrompts": { "mbti": "slot_mbti" }
+  },
+  {
+    "id": "study_advice",
+    "keywords": ["学习", "备考", "复习", "规划", "提升", "方法", "建议"],
+    "regex": [],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "study_advice"
+  },
+  {
+    "id": "how_to_use",
+    "keywords": ["怎么用", "如何使用", "功能", "使用说明", "帮助", "指南"],
+    "regex": [],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "how_to_use"
+  }
+]

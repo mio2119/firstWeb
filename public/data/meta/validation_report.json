@@ -1,0 +1,128 @@
+{
+  "generatedAt": "2025-12-17T16:09:03.507Z",
+  "summary": {
+    "totalFiles": 17,
+    "parsedFiles": 17,
+    "errorFiles": 0,
+    "duplicateIdFiles": 0,
+    "missingReferenceCount": 25,
+    "counts": {
+      "quizQuestions": 82,
+      "universities": 59,
+      "careers": 30,
+      "qaTemplateGroups": 15,
+      "qaTemplateVariants": 86,
+      "qaIntents": 9
+    }
+  },
+  "parseErrors": [],
+  "duplicateIds": [],
+  "references": {
+    "missingCareerDetails": [
+      {
+        "id": "c006",
+        "file": "public/data/explore/careers_detail/c006.json"
+      },
+      {
+        "id": "c007",
+        "file": "public/data/explore/careers_detail/c007.json"
+      },
+      {
+        "id": "c008",
+        "file": "public/data/explore/careers_detail/c008.json"
+      },
+      {
+        "id": "c009",
+        "file": "public/data/explore/careers_detail/c009.json"
+      },
+      {
+        "id": "c010",
+        "file": "public/data/explore/careers_detail/c010.json"
+      },
+      {
+        "id": "c011",
+        "file": "public/data/explore/careers_detail/c011.json"
+      },
+      {
+        "id": "c012",
+        "file": "public/data/explore/careers_detail/c012.json"
+      },
+      {
+        "id": "c013",
+        "file": "public/data/explore/careers_detail/c013.json"
+      },
+      {
+        "id": "c014",
+        "file": "public/data/explore/careers_detail/c014.json"
+      },
+      {
+        "id": "c015",
+        "file": "public/data/explore/careers_detail/c015.json"
+      },
+      {
+        "id": "c016",
+        "file": "public/data/explore/careers_detail/c016.json"
+      },
+      {
+        "id": "c017",
+        "file": "public/data/explore/careers_detail/c017.json"
+      },
+      {
+        "id": "c018",
+        "file": "public/data/explore/careers_detail/c018.json"
+      },
+      {
+        "id": "c019",
+        "file": "public/data/explore/careers_detail/c019.json"
+      },
+      {
+        "id": "c020",
+        "file": "public/data/explore/careers_detail/c020.json"
+      },
+      {
+        "id": "c021",
+        "file": "public/data/explore/careers_detail/c021.json"
+      },
+      {
+        "id": "c022",
+        "file": "public/data/explore/careers_detail/c022.json"
+      },
+      {
+        "id": "c023",
+        "file": "public/data/explore/careers_detail/c023.json"
+      },
+      {
+        "id": "c024",
+        "file": "public/data/explore/careers_detail/c024.json"
+      },
+      {
+        "id": "c025",
+        "file": "public/data/explore/careers_detail/c025.json"
+      },
+      {
+        "id": "c026",
+        "file": "public/data/explore/careers_detail/c026.json"
+      },
+      {
+        "id": "c027",
+        "file": "public/data/explore/careers_detail/c027.json"
+      },
+      {
+        "id": "c028",
+        "file": "public/data/explore/careers_detail/c028.json"
+      },
+      {
+        "id": "c029",
+        "file": "public/data/explore/careers_detail/c029.json"
+      },
+      {
+        "id": "c030",
+        "file": "public/data/explore/careers_detail/c030.json"
+      }
+    ],
+    "detailIdMismatch": [],
+    "missingTemplateGroups": [],
+    "missingSlotPromptGroups": [],
+    "brokenReferences": []
+  }
+}

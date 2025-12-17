@@ -1,0 +1,66 @@
+{
+  "province": "Guangdong",
+  "provinceCode": "gd",
+  "universities": [
+    {
+      "id": "u008",
+      "description": "综合实力强劲的研究型大学，以通识教育和跨学科融合见长。",
+      "aceMajors": ["临床医学", "工商管理", "计算机科学", "中文"],
+      "scoreLine2024": 671,
+      "minRank": 850,
+      "location": "广州 · 海珠 / 珠海",
+      "established": 1924,
+      "studentCount": "60,000+",
+      "motto": "博学 审问 慎思 明辨 笃行",
+      "historyScores": []
+    },
+    {
+      "id": "u009",
+      "description": "面向海外华侨的百年学府，国际化培养体系与多语种优势突出。",
+      "aceMajors": ["新闻传播", "国际关系", "经济学", "统计学"],
+      "scoreLine2024": 628,
+      "minRank": 4200,
+      "location": "广州 · 番禺 / 天河",
+      "established": 1906,
+      "studentCount": "50,000+",
+      "motto": "忠信笃敬",
+      "historyScores": []
+    },
+    {
+      "id": "u010",
+      "description": "工科特色鲜明，工程实践与产业结合紧密，科研转化能力突出。",
+      "aceMajors": ["电子信息", "材料科学", "建筑学", "人工智能"],
+      "scoreLine2024": 662,
+      "minRank": 1300,
+      "location": "广州 · 天河 / 大学城",
+      "established": 1952,
+      "studentCount": "50,000+",
+      "motto": "博学 审问 慎思 明辨",
+      "historyScores": []
+    },
+    {
+      "id": "u011",
+      "description": "深圳创新高地的综合性大学，强调产学研协同与城市产业联动。",
+      "aceMajors": ["软件工程", "金融科技", "电子商务", "工业设计"],
+      "scoreLine2024": 604,
+      "minRank": 9800,
+      "location": "深圳 · 南山",
+      "established": 1983,
+      "studentCount": "40,000+",
+      "motto": "自立 自律 自强",
+      "historyScores": []
+    },
+    {
+      "id": "u012",
+      "description": "师范特色突出，教育学与心理学实力强，基础学科积淀深厚。",
+      "aceMajors": ["教育学", "心理学", "数学", "地理科学"],
+      "scoreLine2024": 618,
+      "minRank": 6200,
+      "location": "广州 · 石牌 / 大学城",
+      "established": 1933,
+      "studentCount": "35,000+",
+      "motto": "艰苦奋斗 严谨治学 求实创新 为人师表",
+      "historyScores": []
+    }
+  ]
+}

@@ -1,0 +1,922 @@
+{
+  "greeting": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "你好，我是你的升学助手" },
+          { "type": "text", "content": "我可以帮你做志愿规划、专业选择与职业理解，也能解读 MBTI。" },
+          { "type": "list", "items": ["输入分数获取院校建议", "说出专业/职业方向", "告诉我你的 MBTI 类型"] },
+          { "type": "cta", "label": "进入生涯探索", "description": "先从兴趣方向开始", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "对话内容为本地数据示例。" }
+        ],
+        "quickReplies": ["我考了650分", "想学计算机", "我是INTJ"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "欢迎来到升学咨询" },
+          { "type": "text", "content": "告诉我你的分数、城市或方向，我会给你一份清晰的路线图。" },
+          { "type": "list", "items": ["志愿冲稳保建议", "专业与职业匹配", "学习策略建议"] },
+          { "type": "cta", "label": "看看院校库", "description": "按分数筛选院校", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "内容仅作模拟演示。" }
+        ],
+        "quickReplies": ["广东650分能上哪", "比较清华和北大", "专业怎么选"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "你好，先给我一个关键词" },
+          { "type": "text", "content": "比如分数、专业、职业或 MBTI，我会据此给出建议。" },
+          { "type": "list", "items": ["分数线与院校匹配", "专业前景与课程风格", "职业画像与成长路径"] },
+          { "type": "cta", "label": "做 MBTI 测评", "description": "快速了解性格倾向", "action": { "type": "route", "path": "/quiz" } },
+          { "type": "disclaimer", "content": "所有建议基于本地示例数据。" }
+        ],
+        "quickReplies": ["我想学法学", "职业方向迷茫", "如何使用本站"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "升学路线从现在开始" },
+          { "type": "text", "content": "你可以从分数入手，也可以先从兴趣和职业方向开始。" },
+          { "type": "list", "items": ["志愿规划：冲稳保梯度", "职业理解：典型一天与误区", "学习建议：短期提分策略"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "先做方向探索", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "仅为演示用途，欢迎继续提问。" }
+        ],
+        "quickReplies": ["分数线怎么看", "专业怎么选", "MBTI解读"]
+      }
+    ]
+  },
+  "admissions_plan": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "志愿规划起步" },
+          { "type": "text", "content": "你目前的分数是 {score} 分，先建立冲稳保梯度，再细化到城市与专业。" },
+          { "type": "list", "items": ["冲刺：位次稍高但有希望", "稳妥：位次匹配的主力", "保底：分数稳健的安全带"] },
+          { "type": "cta", "label": "进入院校库制定梯度", "description": "按 {score} 分筛选", "action": { "type": "route", "path": "/admissions", "params": { "search": "{score}" } } },
+          { "type": "disclaimer", "content": "示例建议仅供规划参考。" }
+        ],
+        "quickReplies": ["我在广东", "冲稳保怎么配比", "先看院校库"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "三步搭建志愿表" },
+          { "type": "text", "content": "基于 {score} 分，先定分数区间，再选城市与专业，最后确定院校梯度。" },
+          { "type": "list", "items": ["分数区间：明确可报范围", "城市偏好：就读与就业兼顾", "专业倾向：兴趣与能力匹配"] },
+          { "type": "cta", "label": "按分数查看院校", "description": "快速锁定可报范围", "action": { "type": "route", "path": "/admissions", "params": { "search": "{score}" } } },
+          { "type": "disclaimer", "content": "建议基于模拟数据，供思路参考。" }
+        ],
+        "quickReplies": ["我更看重城市", "专业优先", "冲稳保比例"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "冲稳保比例建议" },
+          { "type": "text", "content": "可尝试 2:5:3 或 3:4:3 的组合，再根据 {province} 录取偏好微调。" },
+          { "type": "list", "items": ["冲刺位次高，数量不宜过多", "稳妥是核心，匹配度要高", "保底确保安全区间"] },
+          { "type": "cta", "label": "查看院校分布", "description": "从稳妥开始筛选", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "比例可按个人风险偏好调整。" }
+        ],
+        "quickReplies": ["我想稳一点", "冲刺放几个好", "分数是640"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "先看位次再看线" },
+          { "type": "text", "content": "分数是 {score} 分时，建议优先看位次区间，再核对目标院校层级。" },
+          { "type": "list", "items": ["位次更稳定", "专业线差异明显", "同层次院校差距可控"] },
+          { "type": "cta", "label": "用分数筛选院校", "description": "快速定位区间", "action": { "type": "route", "path": "/admissions", "params": { "search": "{score}" } } },
+          { "type": "disclaimer", "content": "示例仅展示规划思路。" }
+        ],
+        "quickReplies": ["我有位次", "再看专业", "想看广东院校"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "城市与专业双向" },
+          { "type": "text", "content": "志愿表不仅是分数匹配，也要结合城市与专业发展路径。" },
+          { "type": "list", "items": ["城市决定实习与就业机会", "专业决定长期技能结构", "院校定位决定资源平台"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "先确定方向再选专业", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "建议基于本地示例数据。" }
+        ],
+        "quickReplies": ["先看职业方向", "我想学金融", "我在广东"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "志愿表风险控制" },
+          { "type": "text", "content": "用 {score} 分规划时，先保证保底，再扩大冲刺范围。" },
+          { "type": "list", "items": ["保底至少占 30%", "稳妥为主力，覆盖区间", "冲刺要选你愿意接受的学校"] },
+          { "type": "cta", "label": "开始志愿筛选", "description": "从保底院校做起", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "此处为规划思路示例。" }
+        ],
+        "quickReplies": ["保底怎么选", "稳妥看哪类", "我想冲刺985"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "目标院校倒推" },
+          { "type": "text", "content": "先确定目标层级，再用 {score} 分倒推可达范围。" },
+          { "type": "list", "items": ["目标院校层级", "可达分数区间", "可替代院校备选"] },
+          { "type": "cta", "label": "查看院校层级", "description": "按关键词快速定位", "action": { "type": "route", "path": "/admissions", "params": { "search": "{score}" } } },
+          { "type": "disclaimer", "content": "仅供模拟演示参考。" }
+        ],
+        "quickReplies": ["我想冲清华", "目标是中大", "专业优先"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "志愿模拟清单" },
+          { "type": "text", "content": "建议准备一份候选清单，覆盖冲稳保三层。" },
+          { "type": "list", "items": ["冲刺清单：3-5 所", "稳妥清单：6-8 所", "保底清单：2-3 所"] },
+          { "type": "cta", "label": "生成院校候选清单", "description": "基于 {score} 分", "action": { "type": "route", "path": "/admissions", "params": { "search": "{score}" } } },
+          { "type": "disclaimer", "content": "清单数量可按个人偏好调整。" }
+        ],
+        "quickReplies": ["我想更稳", "我在广东", "看专业建议"]
+      }
+    ]
+  },
+  "scoreline": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "{uni} 分数线解读" },
+          { "type": "text", "content": "分数线建议结合省份与年份区间理解，避免单一数字误导。" },
+          { "type": "list", "items": ["看近三年区间变化", "关注专业线差异", "结合位次更稳定"] },
+          { "type": "cta", "label": "查看 {uni} 院校信息", "description": "进入院校库检索", "action": { "type": "route", "path": "/admissions", "params": { "search": "{uni}" } } },
+          { "type": "disclaimer", "content": "分数线解读为示例内容。" }
+        ],
+        "quickReplies": ["我在广东", "想看2023", "还有别的学校"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{uni} 分数线影响因素" },
+          { "type": "text", "content": "分数线通常受招生计划、专业热度与省份报考规模影响。" },
+          { "type": "list", "items": ["招生计划变动", "专业冷热差异", "报考人数波动"] },
+          { "type": "cta", "label": "按省份查看院校", "description": "筛选更准确", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["清华分数线", "看北京院校", "分数线怎么估"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "给 {uni} 做分数区间估计" },
+          { "type": "text", "content": "若你分数为 {score}，可先定位区间，再关注专业线分布。" },
+          { "type": "list", "items": ["区间定位：安全/稳妥/冲刺", "专业线：热门专业更高", "位次更稳定"] },
+          { "type": "cta", "label": "匹配 {score} 分院校", "description": "快速查看可报范围", "action": { "type": "route", "path": "/admissions", "params": { "search": "{score}" } } },
+          { "type": "disclaimer", "content": "建议仅供参考。" }
+        ],
+        "quickReplies": ["我分数620", "想看专业线", "换个学校"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "分数线阅读方法" },
+          { "type": "text", "content": "对 {uni} 的分数线，可以按年份、省份、专业三维度理解。" },
+          { "type": "list", "items": ["年份：看趋势", "省份：录取差异", "专业：线差明显"] },
+          { "type": "cta", "label": "进入院校库查看", "description": "按关键词检索", "action": { "type": "route", "path": "/admissions", "params": { "search": "{uni}" } } },
+          { "type": "disclaimer", "content": "仅展示理解框架。" }
+        ],
+        "quickReplies": ["我在广东", "对比北大清华", "专业选择建议"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{uni} 分数线与位次" },
+          { "type": "text", "content": "如果有位次信息，会比单纯分数更稳定。" },
+          { "type": "list", "items": ["位次更能跨年比较", "分数受题目难度影响", "建议两者结合"] },
+          { "type": "cta", "label": "查看分数匹配", "description": "先建立区间再细化", "action": { "type": "route", "path": "/admissions", "params": { "search": "{score}" } } },
+          { "type": "disclaimer", "content": "示例解读仅作参考。" }
+        ],
+        "quickReplies": ["我有位次", "只想看分数线", "再看别的学校"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "分数线只是入口" },
+          { "type": "text", "content": "对 {uni} 而言，专业与批次差异可能比总线更关键。" },
+          { "type": "list", "items": ["热门专业拉高总线", "不同批次差别明显", "校内专业分布更重要"] },
+          { "type": "cta", "label": "查看相关专业", "description": "先锁定方向", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["我想学计算机", "给我专业建议", "我分数640"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{uni} 分数线提醒" },
+          { "type": "text", "content": "建议把分数线当作一个区间参考，而非唯一标准。" },
+          { "type": "list", "items": ["优先确定目标层级", "同层院校可替代", "专业选择影响最终录取"] },
+          { "type": "cta", "label": "筛选同层次院校", "description": "扩展备选范围", "action": { "type": "route", "path": "/admissions", "params": { "search": "{uni}" } } },
+          { "type": "disclaimer", "content": "仅为示例说明。" }
+        ],
+        "quickReplies": ["我要对比学校", "按专业筛选", "看志愿建议"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "关于 {uni} 的分数线" },
+          { "type": "text", "content": "你可以补充省份或年份，让解读更贴近你的情况。" },
+          { "type": "list", "items": ["省份：录取范围不同", "年份：趋势更清晰", "分数：定位更准确"] },
+          { "type": "cta", "label": "去院校库检索", "description": "输入学校名称", "action": { "type": "route", "path": "/admissions", "params": { "search": "{uni}" } } },
+          { "type": "disclaimer", "content": "模拟内容，供参考。" }
+        ],
+        "quickReplies": ["我在广东", "看2022分数线", "只看专业线"]
+      }
+    ]
+  },
+  "school_compare": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "院校对比思路" },
+          { "type": "text", "content": "你提到 {uni}，对比时建议再补充另一所目标院校。" },
+          { "type": "list", "items": ["学科实力与优势方向", "城市与就业资源", "录取区间与风险"] },
+          { "type": "cta", "label": "查看 {uni} 院校详情", "description": "再加入对比对象", "action": { "type": "route", "path": "/admissions", "params": { "search": "{uni}" } } },
+          { "type": "disclaimer", "content": "对比建议为示例说明。" }
+        ],
+        "quickReplies": ["对比清华和北大", "再加中大", "只看广东院校"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "对比从目标出发" },
+          { "type": "text", "content": "如果你的目标是 {uni}，建议补充一所层级接近的院校对比。" },
+          { "type": "list", "items": ["优势学科是否匹配", "城市发展与实习机会", "录取难度差距"] },
+          { "type": "cta", "label": "查看同层院校", "description": "扩展备选范围", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "模拟结果，供参考。" }
+        ],
+        "quickReplies": ["我想对比复旦", "对比中大和华工", "看就业资源"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "学校对比重点" },
+          { "type": "text", "content": "对 {uni} 的对比，可以从专业、城市、录取难度三方面入手。" },
+          { "type": "list", "items": ["专业：强项与兴趣匹配", "城市：产业与机会", "难度：分数区间"] },
+          { "type": "cta", "label": "开始对比", "description": "先选两所学校", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "仅作对比思路参考。" }
+        ],
+        "quickReplies": ["对比北大清华", "对比中大深大", "看专业差异"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{uni} 对比视角" },
+          { "type": "text", "content": "可以用学科、城市、难度三维视角做对比。" },
+          { "type": "list", "items": ["学科：强势方向是否一致", "城市：是否符合规划", "难度：是否可达"] },
+          { "type": "cta", "label": "进入院校库", "description": "添加另一所学校", "action": { "type": "route", "path": "/admissions", "params": { "search": "{uni}" } } },
+          { "type": "disclaimer", "content": "示例内容。" }
+        ],
+        "quickReplies": ["再加一所学校", "我分数650", "看志愿建议"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "对比不是只看排名" },
+          { "type": "text", "content": "对 {uni} 的评估还需考虑专业与行业联系。" },
+          { "type": "list", "items": ["专业资源是否充足", "行业与校友资源", "实习与就业通道"] },
+          { "type": "cta", "label": "查看职业方向", "description": "从就业倒推", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "仅为示例思路。" }
+        ],
+        "quickReplies": ["我想学金融", "对比就业资源", "学校分数线"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "补充另一所学校" },
+          { "type": "text", "content": "已记录 {uni}，告诉我另一所学校我就能给出更清晰的差异。" },
+          { "type": "list", "items": ["优势学科与培养风格", "城市与生活成本", "录取风险差别"] },
+          { "type": "cta", "label": "检索另一所学校", "description": "进入院校库搜索", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "对比建议为模拟内容。" }
+        ],
+        "quickReplies": ["对比中大和华工", "对比北大复旦", "不用对比了"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "学校对比清单" },
+          { "type": "text", "content": "对 {uni} 的对比建议准备 3 个维度清单。" },
+          { "type": "list", "items": ["学科：强势专业", "城市：产业与机会", "录取：难度区间"] },
+          { "type": "cta", "label": "查看院校信息", "description": "从 {uni} 开始", "action": { "type": "route", "path": "/admissions", "params": { "search": "{uni}" } } },
+          { "type": "disclaimer", "content": "示例对比框架。" }
+        ],
+        "quickReplies": ["我在广东", "对比就业", "看专业建议"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "对比院校的下一步" },
+          { "type": "text", "content": "可以先确定主目标 {uni}，再找 1-2 所替代院校。" },
+          { "type": "list", "items": ["替代院校层级接近", "专业方向一致", "录取风险可控"] },
+          { "type": "cta", "label": "扩展备选院校", "description": "进入院校库", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "内容为示例建议。" }
+        ],
+        "quickReplies": ["给我替代院校", "只看分数线", "专业如何选"]
+      }
+    ]
+  },
+  "major_choice": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "专业选择起点" },
+          { "type": "text", "content": "你提到 {major}，我建议先从兴趣与能力匹配度入手。" },
+          { "type": "list", "items": ["兴趣：长期可持续", "能力：课程适配度", "就业：行业发展节奏"] },
+          { "type": "cta", "label": "查看相关职业", "description": "从职业倒推专业", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "专业建议为示例内容。" }
+        ],
+        "quickReplies": ["我想学计算机", "法学前景如何", "选专业还是学校"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{major} 适配度自检" },
+          { "type": "text", "content": "判断 {major} 是否适合你，可以先看课程结构与学习方式。" },
+          { "type": "list", "items": ["课程类型：理论/实践", "学习节奏：重基础/重项目", "能力要求：逻辑/表达"] },
+          { "type": "cta", "label": "查看职业画像", "description": "了解毕业后的工作", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例建议仅供参考。" }
+        ],
+        "quickReplies": ["金融学怎么样", "医学适合我吗", "专业与城市"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "专业与城市的配合" },
+          { "type": "text", "content": "{major} 的就业机会与城市产业密切相关。" },
+          { "type": "list", "items": ["城市产业决定实习机会", "院校资源影响平台", "专业方向影响岗位"] },
+          { "type": "cta", "label": "查看院校专业", "description": "按专业检索院校", "action": { "type": "route", "path": "/admissions", "params": { "search": "{major}" } } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["我在广东", "看法学院校", "看计算机院校"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "专业选择三问" },
+          { "type": "text", "content": "给你一个快速筛选框架，帮助判断 {major} 是否合适。" },
+          { "type": "list", "items": ["我愿意学什么", "我擅长什么", "我想去哪发展"] },
+          { "type": "cta", "label": "开始生涯探索", "description": "用三问找方向", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "建议为示例框架。" }
+        ],
+        "quickReplies": ["我适合学什么", "专业前景", "行业方向"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{major} 典型课程" },
+          { "type": "text", "content": "了解课程结构，有助于判断是否愿意长期投入。" },
+          { "type": "list", "items": ["基础课程为主", "专业方向逐步细化", "实训/项目决定实践能力"] },
+          { "type": "cta", "label": "查看相关职业", "description": "从岗位反推课程", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "课程结构为示例描述。" }
+        ],
+        "quickReplies": ["我想学人工智能", "专业难度如何", "专业和学校冲突吗"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "专业与性格匹配" },
+          { "type": "text", "content": "如果你有 MBTI 类型，也可以辅助判断 {major} 的学习风格。" },
+          { "type": "list", "items": ["内向/外向影响学习方式", "思维偏好影响课程感受", "结构化程度影响适应度"] },
+          { "type": "cta", "label": "做 MBTI 测评", "description": "获得性格倾向", "action": { "type": "route", "path": "/quiz" } },
+          { "type": "disclaimer", "content": "MBTI 仅作参考。" }
+        ],
+        "quickReplies": ["我是INTJ", "我很纠结专业", "推荐专业"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "专业选择的优先级" },
+          { "type": "text", "content": "如果你更看重 {major}，可以适当放宽学校层级。" },
+          { "type": "list", "items": ["专业优先：方向稳定", "学校优先：平台优势", "折中：专业在校内优势"] },
+          { "type": "cta", "label": "查看院校匹配", "description": "按专业搜索院校", "action": { "type": "route", "path": "/admissions", "params": { "search": "{major}" } } },
+          { "type": "disclaimer", "content": "示例建议，仅供参考。" }
+        ],
+        "quickReplies": ["专业优先", "学校优先", "我在广东"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "专业方向细化" },
+          { "type": "text", "content": "{major} 往往有不同细分方向，建议提前了解。" },
+          { "type": "list", "items": ["细分方向决定课程", "方向决定实习路径", "方向决定就业岗位"] },
+          { "type": "cta", "label": "探索职业方向", "description": "了解岗位画像", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["我想学金融", "想学法学", "学医好吗"]
+      }
+    ]
+  },
+  "career_understanding": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "{career} 职业画像" },
+          { "type": "text", "content": "我可以从典型一天、核心技能与成长路径帮你理解 {career}。" },
+          { "type": "list", "items": ["典型一天：真实节奏", "核心技能：硬/软能力", "成长路径：职业阶段"] },
+          { "type": "cta", "label": "查看职业详情", "description": "进入职业图谱", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "职业内容为示例描述。" }
+        ],
+        "quickReplies": ["看数据分析师", "看AI产品经理", "看非诉律师"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "理解 {career} 的关键点" },
+          { "type": "text", "content": "这个职业的核心在于工作方式与能力结构是否适合你。" },
+          { "type": "list", "items": ["工作方式是否符合习惯", "能力结构是否愿意培养", "行业节奏是否能适应"] },
+          { "type": "cta", "label": "打开职业档案", "description": "查看典型一天与误区", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例内容，仅供参考。" }
+        ],
+        "quickReplies": ["看临床医生", "看数字媒体艺术", "职业与专业关系"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{career} 与专业的关系" },
+          { "type": "text", "content": "建议从相关专业与入门学习路径做判断。" },
+          { "type": "list", "items": ["相关专业决定起点", "学习路径决定上手速度", "实践项目决定竞争力"] },
+          { "type": "cta", "label": "查看相关专业", "description": "按专业搜索院校", "action": { "type": "route", "path": "/admissions", "params": { "search": "{career}" } } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["职业怎么选", "我想做产品", "看AI方向"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "职业误区提醒" },
+          { "type": "text", "content": "{career} 常见误区会影响判断，建议先看真实工作场景。" },
+          { "type": "list", "items": ["误区会放大或弱化难度", "真实节奏决定适配度", "技能要求比想象更具体"] },
+          { "type": "cta", "label": "查看职业详情", "description": "重点了解典型一天", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "误区仅为示例说明。" }
+        ],
+        "quickReplies": ["看律师", "看医生", "看数据分析"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "职业与性格匹配" },
+          { "type": "text", "content": "如果你有 MBTI 类型，也可以辅助判断 {career} 的工作方式。" },
+          { "type": "list", "items": ["内向/外向影响沟通方式", "思维偏好影响决策方式", "节奏偏好影响岗位感受"] },
+          { "type": "cta", "label": "获取 MBTI 解读", "description": "了解性格倾向", "action": { "type": "route", "path": "/quiz" } },
+          { "type": "disclaimer", "content": "MBTI 为参考工具。" }
+        ],
+        "quickReplies": ["我是ENFP", "我适合什么职业", "职业方向迷茫"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{career} 能力结构" },
+          { "type": "text", "content": "这个职业通常需要硬技能与软技能并重。" },
+          { "type": "list", "items": ["硬技能：可学习的工具", "软技能：协作与沟通", "持续学习决定成长速度"] },
+          { "type": "cta", "label": "查看学习路径", "description": "从入门开始", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例说明，仅供参考。" }
+        ],
+        "quickReplies": ["想学设计", "想做运营", "职业前景"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "职业选择三件事" },
+          { "type": "text", "content": "理解 {career} 时，建议先看真实工作、入门门槛与成长路径。" },
+          { "type": "list", "items": ["真实工作：每天做什么", "门槛：技能与学历", "成长：未来路线"] },
+          { "type": "cta", "label": "打开职业档案", "description": "查看详细画像", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "内容基于本地示例。" }
+        ],
+        "quickReplies": ["看临床医生", "看AI产品经理", "看非诉律师"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{career} 入门建议" },
+          { "type": "text", "content": "从基础技能到项目实践，可以逐步建立竞争力。" },
+          { "type": "list", "items": ["基础知识打底", "工具能力训练", "项目实践沉淀"] },
+          { "type": "cta", "label": "查看入门路径", "description": "一步步建立能力", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例路径仅供参考。" }
+        ],
+        "quickReplies": ["怎么入门", "学习路线", "相关专业"]
+      }
+    ]
+  },
+  "mbti_interpret": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 性格倾向解读" },
+          { "type": "text", "content": "我会结合你给出的类型，提供优势与潜在挑战的参考。" },
+          { "type": "list", "items": ["优势：核心驱动力", "挑战：容易忽视的点", "建议：匹配职业方向"] },
+          { "type": "cta", "label": "查看职业匹配", "description": "从兴趣与性格出发", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "MBTI 仅作参考工具。" }
+        ],
+        "quickReplies": ["我是INTJ", "我是ENFP", "测评入口"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 可能的学习风格" },
+          { "type": "text", "content": "不同类型在学习节奏与偏好上有差异，可作为辅助参考。" },
+          { "type": "list", "items": ["偏好结构化或开放式", "更擅长独立或协作", "对反馈的敏感程度"] },
+          { "type": "cta", "label": "看看学习建议", "description": "制定个人学习策略", "action": { "type": "route", "path": "/qa" } },
+          { "type": "disclaimer", "content": "内容为示例说明。" }
+        ],
+        "quickReplies": ["学习建议", "我很拖延", "怎么提升"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 与专业选择" },
+          { "type": "text", "content": "你可以用性格偏好辅助判断专业学习方式是否合适。" },
+          { "type": "list", "items": ["偏好理论/实践", "偏好稳定/探索", "偏好合作/独立"] },
+          { "type": "cta", "label": "查看专业方向", "description": "从兴趣到专业", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "性格仅作参考。" }
+        ],
+        "quickReplies": ["我想学计算机", "专业怎么选", "职业方向"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 职业倾向提示" },
+          { "type": "text", "content": "以下为倾向性建议，可作为探索方向的起点。" },
+          { "type": "list", "items": ["喜欢结构与策略", "乐于解决复杂问题", "关注长期成长"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "探索匹配方向", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例建议，请结合自身情况。" }
+        ],
+        "quickReplies": ["给我职业建议", "我是INFP", "我是ESTJ"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 常见误区" },
+          { "type": "text", "content": "性格类型不是标签，而是帮助你理解自身偏好。" },
+          { "type": "list", "items": ["类型会随环境变化", "不能替代实际体验", "建议结合兴趣与能力"] },
+          { "type": "cta", "label": "做一次测评", "description": "获取更完整画像", "action": { "type": "route", "path": "/quiz" } },
+          { "type": "disclaimer", "content": "MBTI 仅作参考。" }
+        ],
+        "quickReplies": ["测评入口", "我是什么类型", "职业适配"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 优势提示" },
+          { "type": "text", "content": "我会强调可能的优势方向，帮助你建立自信与规划。" },
+          { "type": "list", "items": ["优势带来的学习动力", "适合的工作方式", "可提升的短板"] },
+          { "type": "cta", "label": "查看学习建议", "description": "强化优势，补足短板", "action": { "type": "route", "path": "/qa" } },
+          { "type": "disclaimer", "content": "示例内容，仅供参考。" }
+        ],
+        "quickReplies": ["学习建议", "职业方向", "专业选择"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 与职业匹配" },
+          { "type": "text", "content": "性格偏好可以帮助你筛选更舒适的岗位类型。" },
+          { "type": "list", "items": ["偏好沟通或深度思考", "偏好稳定或变化", "偏好协作或独立"] },
+          { "type": "cta", "label": "去职业图谱", "description": "看看匹配岗位", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例建议，请结合实际。" }
+        ],
+        "quickReplies": ["我是ENTP", "适合什么职业", "看专业"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "{mbti} 下一步建议" },
+          { "type": "text", "content": "如果你愿意，可以继续告诉我分数或专业方向，帮助你细化规划。" },
+          { "type": "list", "items": ["补充分数定位区间", "补充专业方向", "补充目标城市"] },
+          { "type": "cta", "label": "进入院校库", "description": "按分数筛选", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["我考了620分", "我在广东", "我想学法学"]
+      }
+    ]
+  },
+  "study_advice": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "学习策略建议" },
+          { "type": "text", "content": "如果你在 {year} 备考，建议先建立稳定节奏，再做专项突破。" },
+          { "type": "list", "items": ["先稳基础，再做提升", "每周复盘错题", "保持可持续节奏"] },
+          { "type": "cta", "label": "制定志愿目标", "description": "让目标驱动学习", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "学习建议为示例参考。" }
+        ],
+        "quickReplies": ["我分数在550", "我偏科", "如何提分"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "短期提分方法" },
+          { "type": "text", "content": "短期提分更依赖错题管理与节奏管理。" },
+          { "type": "list", "items": ["错题重做 > 刷新题", "每日固定复盘时间", "每周一次模拟总结"] },
+          { "type": "cta", "label": "看看学习路径", "description": "制定可执行清单", "action": { "type": "route", "path": "/qa" } },
+          { "type": "disclaimer", "content": "建议为模拟示例。" }
+        ],
+        "quickReplies": ["需要学习计划", "如何分配时间", "我很焦虑"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "中长期学习规划" },
+          { "type": "text", "content": "若你目标是更高分数，建议形成稳定的学习节奏与复盘机制。" },
+          { "type": "list", "items": ["长期：打牢基础", "中期：专项突破", "短期：模拟训练"] },
+          { "type": "cta", "label": "查看志愿方向", "description": "目标更清晰", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "仅为学习建议示例。" }
+        ],
+        "quickReplies": ["我想上985", "需要复习规划", "怎么调整心态"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "偏科怎么办" },
+          { "type": "text", "content": "建议先稳住优势科目，再设定弱科的可达目标。" },
+          { "type": "list", "items": ["优势科稳住上限", "弱科先补基础", "阶段目标要可衡量"] },
+          { "type": "cta", "label": "查看学习建议", "description": "细化策略", "action": { "type": "route", "path": "/qa" } },
+          { "type": "disclaimer", "content": "建议为示例参考。" }
+        ],
+        "quickReplies": ["弱科是数学", "我偏科英语", "复习节奏"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "学习动力管理" },
+          { "type": "text", "content": "动力来自清晰目标与可执行计划。" },
+          { "type": "list", "items": ["设定小目标", "用反馈驱动持续", "用奖励机制巩固习惯"] },
+          { "type": "cta", "label": "确认目标院校", "description": "用目标驱动学习", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例建议。" }
+        ],
+        "quickReplies": ["我很迷茫", "没有动力", "怎么定目标"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "错题管理三步" },
+          { "type": "text", "content": "错题管理是提分最快的手段之一。" },
+          { "type": "list", "items": ["分类归纳", "隔天重做", "每周复盘"] },
+          { "type": "cta", "label": "获取学习节奏建议", "description": "建立复盘机制", "action": { "type": "route", "path": "/qa" } },
+          { "type": "disclaimer", "content": "仅为示例参考。" }
+        ],
+        "quickReplies": ["我不会复盘", "计划总坚持不了", "如何提高效率"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "复习计划模板" },
+          { "type": "text", "content": "可以用基础-专项-模拟三阶段来安排。" },
+          { "type": "list", "items": ["基础：错题+教材", "专项：题型突破", "模拟：节奏与心态"] },
+          { "type": "cta", "label": "查看志愿方向", "description": "明确目标后更好规划", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "计划模板为示例。" }
+        ],
+        "quickReplies": ["我想要计划表", "怎么安排每天", "备考节奏"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "学习建议小结" },
+          { "type": "text", "content": "如果你愿意，可以补充分数或目标院校，我会给更贴近的建议。" },
+          { "type": "list", "items": ["补充分数定位", "补充目标城市", "补充专业方向"] },
+          { "type": "cta", "label": "进入院校库", "description": "从目标院校开始", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["我考了620分", "目标广州", "想学计算机"]
+      }
+    ]
+  },
+  "how_to_use": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "本站使用指南" },
+          { "type": "text", "content": "你可以从分数、专业或职业方向任一入口开始。" },
+          { "type": "list", "items": ["院校库：按分数筛选", "生涯探索：看职业画像", "MBTI：了解性格倾向"] },
+          { "type": "cta", "label": "进入生涯探索", "description": "从兴趣出发", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "所有内容为本地示例。" }
+        ],
+        "quickReplies": ["先看院校库", "先看职业", "做MBTI测评"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "三种起步方式" },
+          { "type": "text", "content": "最简单的开始：告诉我分数或一个方向。" },
+          { "type": "list", "items": ["分数入口：院校匹配", "方向入口：职业与专业", "性格入口：MBTI 解读"] },
+          { "type": "cta", "label": "查看院校库", "description": "按分数筛选", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例系统，供体验使用。" }
+        ],
+        "quickReplies": ["我考了650分", "我想学法学", "我是INTJ"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "功能结构一览" },
+          { "type": "text", "content": "本站围绕志愿、专业、职业、性格四个维度设计。" },
+          { "type": "list", "items": ["志愿：院校匹配与筛选", "专业：方向与前景", "职业：典型一天与误区"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "先了解职业世界", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["怎么做测评", "怎么选专业", "怎么看分数线"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "推荐使用顺序" },
+          { "type": "text", "content": "不确定方向时，建议先做兴趣探索，再进入院校筛选。" },
+          { "type": "list", "items": ["先探索职业", "再确定专业方向", "最后进入院校匹配"] },
+          { "type": "cta", "label": "开始探索", "description": "从职业方向入手", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "仅为推荐顺序。" }
+        ],
+        "quickReplies": ["我要看职业", "我已确定专业", "我有分数"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "如何使用聊天顾问" },
+          { "type": "text", "content": "输入分数、专业或职业关键词，就能触发对应建议。" },
+          { "type": "list", "items": ["例：650分能上哪", "例：我想学计算机", "例：职业方向迷茫"] },
+          { "type": "cta", "label": "试试聊天建议", "description": "输入你的问题", "action": { "type": "route", "path": "/qa" } },
+          { "type": "disclaimer", "content": "示例对话，供体验。" }
+        ],
+        "quickReplies": ["650分能上哪", "我想学金融", "做MBTI"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "志愿与职业联动" },
+          { "type": "text", "content": "建议把职业方向作为志愿规划的上游。" },
+          { "type": "list", "items": ["职业决定专业方向", "专业决定院校选择", "院校决定资源平台"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "先定方向", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["我不知道选什么", "职业方向建议", "专业选择建议"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "数据如何使用" },
+          { "type": "text", "content": "所有数据都来自本地 JSON，适合展示流程与功能逻辑。" },
+          { "type": "list", "items": ["内容可随时运营调整", "模板支持多变体", "无需外部接口"] },
+          { "type": "cta", "label": "查看院校库", "description": "体验筛选逻辑", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "本系统为演示用途。" }
+        ],
+        "quickReplies": ["模板怎么扩充", "如何运营", "看职业"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "快速开始" },
+          { "type": "text", "content": "输入一个关键词即可开始，比如分数、专业或学校名称。" },
+          { "type": "list", "items": ["分数：院校匹配", "专业：方向建议", "学校：分数线解读"] },
+          { "type": "cta", "label": "进入院校库", "description": "按关键词检索", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "内容为示例演示。" }
+        ],
+        "quickReplies": ["清华分数线", "我考了620分", "我想学法学"]
+      }
+    ]
+  },
+  "slot_score": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "需要你的分数" },
+          { "type": "text", "content": "告诉我你的高考/模考总分，我就能进行志愿匹配。" },
+          { "type": "list", "items": ["只需输入数字", "例如：620", "可随时修改"] },
+          { "type": "cta", "label": "输入分数后查看院校", "description": "进入院校库", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "内容为本地示例。" }
+        ],
+        "quickReplies": ["600", "630", "660", "690"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "分数是关键参数" },
+          { "type": "text", "content": "请直接回复你的分数，我会基于分数区间进行规划。" },
+          { "type": "list", "items": ["输入三位数字即可", "例如：612", "也可以带上省份"] },
+          { "type": "cta", "label": "去院校库体验", "description": "先看看匹配范围", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "仅供示例展示。" }
+        ],
+        "quickReplies": ["580", "605", "645", "700"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "请补充分数" },
+          { "type": "text", "content": "有了分数，我能帮你建立冲稳保梯度。" },
+          { "type": "list", "items": ["分数决定院校区间", "越具体越准确", "可附带省份"] },
+          { "type": "cta", "label": "按分数筛选院校", "description": "体验志愿规划", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["620", "650", "680", "710"]
+      }
+    ]
+  },
+  "slot_uni": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "需要你关心的学校" },
+          { "type": "text", "content": "告诉我一所学校名称，我就能给出分数线与对比建议。" },
+          { "type": "list", "items": ["可以输入简称", "例如：清华、北大", "也可输入完整名称"] },
+          { "type": "cta", "label": "去院校库搜索", "description": "快速定位学校", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["清华大学", "北京大学", "中山大学", "华南理工大学"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "先确定学校" },
+          { "type": "text", "content": "请告诉我想了解的学校名称，我会提供对应建议。" },
+          { "type": "list", "items": ["支持简称与全称", "也可以说两所学校", "我会补充对比思路"] },
+          { "type": "cta", "label": "查看院校库", "description": "搜索学校名称", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["复旦大学", "深圳大学", "清华和北大", "中大和华工"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "请补充目标院校" },
+          { "type": "text", "content": "告诉我一所院校，我就能继续分析。" },
+          { "type": "list", "items": ["输入学校名称", "可加上省份", "可再补充另一所"] },
+          { "type": "cta", "label": "进入院校库检索", "description": "快速定位院校", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["北大", "清华", "中山大学", "华南理工"]
+      }
+    ]
+  },
+  "slot_major": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "需要专业方向" },
+          { "type": "text", "content": "告诉我你关心的专业，我会给出匹配建议。" },
+          { "type": "list", "items": ["可输入：计算机/法学/金融", "也可以说大类方向", "我会给出下一步建议"] },
+          { "type": "cta", "label": "去职业图谱看看", "description": "从职业倒推专业", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["计算机科学与技术", "法学", "金融学", "临床医学"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "请补充专业" },
+          { "type": "text", "content": "告诉我一个专业方向，我会继续分析。" },
+          { "type": "list", "items": ["直接输入专业名称", "或输入兴趣方向", "我会给出建议"] },
+          { "type": "cta", "label": "打开生涯探索", "description": "寻找专业方向", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["人工智能", "金融学", "法学", "医学"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "先给我一个专业" },
+          { "type": "text", "content": "输入一个专业名称，我会给你匹配建议。" },
+          { "type": "list", "items": ["如：计算机/法学/金融", "也可以输入职业方向", "我会引导下一步"] },
+          { "type": "cta", "label": "去院校库检索", "description": "按专业筛选", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["计算机", "法学", "金融", "医学"]
+      }
+    ]
+  },
+  "slot_career": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "需要职业方向" },
+          { "type": "text", "content": "告诉我一个职业名称，我会提供画像与误区提示。" },
+          { "type": "list", "items": ["可输入：AI 产品经理", "或：数据分析师、医生", "也可说行业方向"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "先浏览方向", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["AI产品经理", "数据分析师", "临床医生", "非诉律师"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "请补充职业名称" },
+          { "type": "text", "content": "告诉我想了解的职业，我就能继续解析。" },
+          { "type": "list", "items": ["可以用简称", "也可以说行业方向", "我会给出画像"] },
+          { "type": "cta", "label": "进入职业图谱", "description": "查看职业列表", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["产品经理", "数据分析", "医生", "律师"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "先给我一个职业" },
+          { "type": "text", "content": "输入职业名称即可，我会从典型一天开始讲解。" },
+          { "type": "list", "items": ["职业画像更直观", "误区提醒更有用", "入门路径更清晰"] },
+          { "type": "cta", "label": "查看职业详情", "description": "进入职业图谱", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["AI产品经理", "数字媒体艺术家", "数据分析师", "临床医生"]
+      }
+    ]
+  },
+  "slot_mbti": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "需要你的 MBTI 类型" },
+          { "type": "text", "content": "告诉我你的 MBTI 类型，我会给出性格解读。" },
+          { "type": "list", "items": ["如：INTJ / ENFP", "输入 4 位字母即可", "不确定可先测评"] },
+          { "type": "cta", "label": "开始 MBTI 测评", "description": "快速了解类型", "action": { "type": "route", "path": "/quiz" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["INTJ", "INFP", "ESTJ", "ENFP"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "先给我一个类型" },
+          { "type": "text", "content": "告诉我你的 MBTI 类型，我会补充优势与建议。" },
+          { "type": "list", "items": ["输入类型即可", "也可以先去测评", "我会根据类型给建议"] },
+          { "type": "cta", "label": "去测评", "description": "不知道类型？先测评", "action": { "type": "route", "path": "/quiz" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["ENTP", "INFJ", "ISTJ", "ESFP"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "请补充 MBTI" },
+          { "type": "text", "content": "输入 4 位字母类型，我会继续解读。" },
+          { "type": "list", "items": ["例：INTJ", "例：ENFP", "也可先测评"] },
+          { "type": "cta", "label": "做 MBTI 测评", "description": "获取类型", "action": { "type": "route", "path": "/quiz" } },
+          { "type": "disclaimer", "content": "示例提示。" }
+        ],
+        "quickReplies": ["INTP", "ENFJ", "ISFP", "ESTP"]
+      }
+    ]
+  },
+  "fallback": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "我还没完全理解" },
+          { "type": "text", "content": "你可以换个说法，或告诉我分数、专业、职业方向。" },
+          { "type": "list", "items": ["分数：院校匹配", "专业：方向建议", "职业：画像解读"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "从方向开始", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "内容为示例演示。" }
+        ],
+        "quickReplies": ["650分能上哪", "我想学计算机", "怎么看分数线"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "暂未匹配到意图" },
+          { "type": "text", "content": "给我一个关键词即可，比如“分数线”“专业”“职业”。" },
+          { "type": "list", "items": ["输入学校名看分数线", "输入专业看方向", "输入职业看画像"] },
+          { "type": "cta", "label": "进入院校库", "description": "先看院校范围", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例内容。" }
+        ],
+        "quickReplies": ["清华分数线", "专业选择建议", "职业方向迷茫"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "我需要更多信息" },
+          { "type": "text", "content": "告诉我分数、专业或目标院校，我就能继续分析。" },
+          { "type": "list", "items": ["分数越具体越好", "专业越明确越好", "院校可用简称"] },
+          { "type": "cta", "label": "去生涯探索", "description": "先找方向", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "示例内容。" }
+        ],
+        "quickReplies": ["我考了620分", "我想学法学", "我在广东"]
+      }
+    ]
+  }
+}

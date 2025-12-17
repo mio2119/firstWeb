@@ -1,0 +1,32 @@
+{
+  "questions": [
+    {
+      "id": "activity",
+      "title": "你更享受哪种工作方式？",
+      "options": [
+        { "label": "与人协作", "tag": "人际", "icon": "Users", "desc": "沟通、影响、组织" },
+        { "label": "分析数据", "tag": "数据", "icon": "Database", "desc": "洞察、推理、逻辑" },
+        { "label": "创意表达", "tag": "创造", "icon": "PenTool", "desc": "设计、写作、创新" },
+        { "label": "动手实践", "tag": "动手", "icon": "Box", "desc": "工程、实验、制作" }
+      ]
+    },
+    {
+      "id": "value",
+      "title": "你最看重什么？",
+      "options": [
+        { "label": "稳定感", "tag": "稳定", "icon": "Shield", "desc": "安全、确定性与秩序" },
+        { "label": "高回报", "tag": "高薪", "icon": "Coins", "desc": "收入上限与成长速度" },
+        { "label": "自由度", "tag": "自由", "icon": "Plane", "desc": "自主、弹性与探索" },
+        { "label": "影响力", "tag": "影响力", "icon": "Zap", "desc": "创造变化与社会价值" }
+      ]
+    },
+    {
+      "id": "investment",
+      "title": "你偏好的学习周期？",
+      "options": [
+        { "label": "快速上手", "tag": "快起步", "icon": "Clock", "desc": "1-3 年进入赛道" },
+        { "label": "深度积累", "tag": "深度", "icon": "Hourglass", "desc": "长期沉淀与专业壁垒" }
+      ]
+    }
+  ]
+}

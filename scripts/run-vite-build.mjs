@@ -18,7 +18,7 @@ const bundledNode = path.join(
 
 const nodeBin = fs.existsSync(bundledNode) ? bundledNode : process.execPath;
 
-const child = spawn(nodeBin, [viteCli, 'build', '--configLoader', 'native'], {
+const child = spawn(nodeBin, [viteCli, 'build'], {
   cwd: root,
   stdio: 'inherit',
   shell: false,
@@ -32,4 +32,3 @@ child.on('error', (error) => {
   console.error(error);
   process.exit(1);
 });
-

@@ -35,7 +35,7 @@ export const useExplore = () => {
   const careersIndex = indexData ?? [];
 
   const categories = useMemo(() => {
-    const unique = Array.from(new Set(careersIndex.map((item) => item.category)));
+    const unique = Array.from(new Set<string>(careersIndex.map((item) => item.category)));
     return ['全部', ...unique.sort((a, b) => a.localeCompare(b))];
   }, [careersIndex]);
 

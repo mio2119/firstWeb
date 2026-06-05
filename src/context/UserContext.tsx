@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { apiClient } from '../services/apiClient';
 
 // --- Types ---
 
@@ -72,28 +73,88 @@ const DEFAULT_PROFILE: UserProfile = {
   intro_seen: false
 };
 
+const readLocalJson = <T,>(key: string, fallback: T): T => {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) as T : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const syncQuietly = (task: Promise<unknown>) => {
+  task.catch((error) => {
+    console.warn('Backend state sync skipped:', error);
+  });
+};
+
+const isBackendDefaultProfile = (value: UserProfile) => {
+  const hasNoJourneyData =
+    !value.province &&
+    !value.targetCity &&
+    !value.score &&
+    !value.intro_seen &&
+    (!value.interestTags || value.interestTags.length === 0);
+  const hasDefaultIdentity =
+    value.name === DEFAULT_PROFILE.name ||
+    value.name === '未命名学习者' ||
+    value.avatar === DEFAULT_PROFILE.avatar ||
+    value.avatar === 'SE';
+  return hasNoJourneyData && hasDefaultIdentity;
+};
+
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // State Initialization (Lazy Load from LocalStorage)
   const [profile, setProfile] = useState<UserProfile>(() => {
-    const saved = localStorage.getItem('sec_user_profile');
+    const saved = readLocalJson<Partial<UserProfile> | null>('sec_user_profile', null);
     // MERGE logic: Ensure we have all default fields even if LS has partial data
-    return saved ? { ...DEFAULT_PROFILE, ...JSON.parse(saved) } : DEFAULT_PROFILE;
+    return saved ? { ...DEFAULT_PROFILE, ...saved } : DEFAULT_PROFILE;
   });
 
   const [mbti, setMbtiState] = useState<MBTIResult | null>(() => {
-    const saved = localStorage.getItem('sec_mbti_result');
-    return saved ? JSON.parse(saved) : null;
+    return readLocalJson<MBTIResult | null>('sec_mbti_result', null);
   });
 
   const [favorites, setFavorites] = useState<FavoriteItem[]>(() => {
-    const saved = localStorage.getItem('sec_favorites');
-    return saved ? JSON.parse(saved) : [];
+    return readLocalJson<FavoriteItem[]>('sec_favorites', []);
   });
 
   const [history, setHistory] = useState<HistoryItem[]>(() => {
-    const saved = localStorage.getItem('sec_history');
-    return saved ? JSON.parse(saved) : [];
+    return readLocalJson<HistoryItem[]>('sec_history', []);
   });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    apiClient.getState<UserProfile, MBTIResult, FavoriteItem, HistoryItem>()
+      .then((remoteState) => {
+        if (cancelled) return;
+        const localProfile = readLocalJson<Partial<UserProfile> | null>('sec_user_profile', null);
+        const localMbti = readLocalJson<MBTIResult | null>('sec_mbti_result', null);
+        const localFavorites = readLocalJson<FavoriteItem[]>('sec_favorites', []);
+        const localHistory = readLocalJson<HistoryItem[]>('sec_history', []);
+
+        if (remoteState.profile && !(localProfile && isBackendDefaultProfile(remoteState.profile))) {
+          setProfile({ ...DEFAULT_PROFILE, ...remoteState.profile });
+        }
+        if (remoteState.mbti || !localMbti) {
+          setMbtiState(remoteState.mbti ?? null);
+        }
+        if (Array.isArray(remoteState.favorites) && (remoteState.favorites.length > 0 || localFavorites.length === 0)) {
+          setFavorites(remoteState.favorites);
+        }
+        if (Array.isArray(remoteState.history) && (remoteState.history.length > 0 || localHistory.length === 0)) {
+          setHistory(remoteState.history);
+        }
+      })
+      .catch((error) => {
+        console.warn('Backend state restore skipped:', error);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // --- Persistence Effects ---
   useEffect(() => {
@@ -125,22 +186,27 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setProfile(prev => {
       const newProfile = { ...prev, ...data };
       newProfile.completeness = calculateCompleteness(newProfile);
+      syncQuietly(apiClient.updateProfile(newProfile));
       return newProfile;
     });
   }, []);
 
   const setMBTI = useCallback((data: MBTIResult) => {
     setMbtiState(data);
+    syncQuietly(apiClient.updateMbti(data));
   }, []);
 
   const toggleFavorite = useCallback((item: Omit<FavoriteItem, 'timestamp'>) => {
     setFavorites(prev => {
       const exists = prev.find(f => f.id === item.id);
       if (exists) {
-        return prev.filter(f => f.id !== item.id);
-      } else {
-        return [{ ...item, timestamp: Date.now() }, ...prev];
+        const nextFavorites = prev.filter(f => f.id !== item.id);
+        syncQuietly(apiClient.replaceFavorites(nextFavorites));
+        return nextFavorites;
       }
+      const nextFavorites = [{ ...item, timestamp: Date.now() }, ...prev];
+      syncQuietly(apiClient.replaceFavorites(nextFavorites));
+      return nextFavorites;
     });
   }, []);
 
@@ -157,12 +223,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       // Remove duplicates for cleaner timeline (browsing same page)
       const filtered = prev.filter(h => !(h.type === 'browsing' && h.path === item.path));
-      return [newItem, ...filtered].slice(0, 50);
+      const nextHistory = [newItem, ...filtered].slice(0, 50);
+      syncQuietly(apiClient.replaceHistory(nextHistory));
+      return nextHistory;
     });
   }, []);
 
   const clearHistory = useCallback(() => {
     setHistory([]);
+    syncQuietly(apiClient.clearHistory());
   }, []);
 
   // --- Data Management ---
@@ -194,6 +263,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (data.mbti) setMbtiState(data.mbti);
       if (data.favorites) setFavorites(data.favorites);
       if (data.history) setHistory(data.history);
+      syncQuietly(apiClient.replaceState({
+        profile: data.profile ? { ...DEFAULT_PROFILE, ...data.profile } : profile,
+        mbti: data.mbti ?? mbti,
+        favorites: data.favorites ?? favorites,
+        history: data.history ?? history
+      }));
       
       alert('档案读取成功，欢迎回来。');
     } catch (e) {
@@ -209,6 +284,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setMbtiState(null);
       setFavorites([]);
       setHistory([]);
+      syncQuietly(apiClient.resetState());
       alert("新篇章已开启。");
     }
   }, []);

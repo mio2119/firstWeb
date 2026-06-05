@@ -9,6 +9,10 @@ lerna-debug.log*
 
 # Dependencies
 node_modules/
+backend/.venv/
+backend/.deps/
+__pycache__/
+*.pyc
 
 # Build outputs
 dist
@@ -21,7 +25,12 @@ dist-ssr
 # Env files
 .env
 .env.*
+!.env.example
 *.local
+
+# Workbench runtime
+backend/runtime/
+docs/workbench/latest-report.json
 
 # Editor directories and files
 .vscode/*

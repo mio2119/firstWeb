@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { Intent, TemplateBlock, TemplateGroup } from '../data/types/qa';
 import { useQAMatcher } from './useQAMatcher';
+import { apiClient } from '../services/apiClient';
 
 // --- Types ---
 interface Message {
@@ -23,14 +24,18 @@ export const useSmartQA = () => {
   const [synonyms, setSynonyms] = useState<Record<string, string>>({});
   const [intents, setIntents] = useState<Intent[]>([]);
   const [templates, setTemplates] = useState<Record<string, TemplateGroup>>({});
+  const hasGreetedRef = useRef(false);
   const { match } = useQAMatcher(intents, templates, synonyms);
 
   // 1. Load Data on Mount
   useEffect(() => {
+    const resolveDataPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+    const loadStatic = (path: string) => fetch(resolveDataPath(path)).then(r => r.json());
+
     Promise.all([
-      fetch('data/meta/synonyms.json').then(r => r.json()),
-      fetch('data/qa/intents.json').then(r => r.json()),
-      fetch('data/qa/templates.json').then(r => r.json())
+      apiClient.getData<Record<string, string>>('data/meta/synonyms.json').catch(() => loadStatic('data/meta/synonyms.json')),
+      apiClient.getData<Intent[]>('data/qa/intents.json').catch(() => loadStatic('data/qa/intents.json')),
+      apiClient.getData<Record<string, TemplateGroup>>('data/qa/templates.json').catch(() => loadStatic('data/qa/templates.json'))
     ]).then(([synData, intData, tplData]) => {
       setSynonyms(synData);
       setIntents(intData);
@@ -62,8 +67,16 @@ export const useSmartQA = () => {
     const delay = Math.random() * 600 + 600;
     await new Promise(resolve => setTimeout(resolve, delay));
 
-    const { blocks, quickReplies: replies, slots } = match({ text: rawText, context });
-    const safeBlocks = blocks.length > 0 ? blocks : [{ type: 'text', content: '正在加载对话数据，请稍后再试。' }];
+    let answer;
+    try {
+      answer = await apiClient.chat(rawText, context);
+    } catch {
+      answer = match({ text: rawText, context });
+    }
+
+    const { blocks, quickReplies: replies, slots } = answer;
+    const fallbackBlocks: TemplateBlock[] = [{ type: 'text', content: '正在加载对话数据，请稍后再试。' }];
+    const safeBlocks = blocks.length > 0 ? blocks : fallbackBlocks;
     setContext(slots);
 
     // F. Add AI Message
@@ -82,14 +95,14 @@ export const useSmartQA = () => {
 
   // 3. Auto Greeting (Triggered only when templates are ready and messages are empty)
   useEffect(() => {
-    // Only trigger if we have loaded templates, haven't sent a message yet, and intents are loaded
-    if (Object.keys(templates).length > 0 && messages.length === 0) {
+    if (!hasGreetedRef.current && messages.length === 0) {
+        hasGreetedRef.current = true;
         const timer = setTimeout(() => {
             processInput("你好", true);
         }, 500);
         return () => clearTimeout(timer);
     }
-  }, [templates, messages.length, processInput]);
+  }, [messages.length, processInput]);
 
   return {
     messages,

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { MBTIDimension, MBTIQuestion } from '../data/types/quiz';
+import { apiClient } from '../services/apiClient';
 
 type AnswerMap = Record<number, number>;
 
@@ -59,7 +60,11 @@ export const useMBTI = (questions: MBTIQuestion[]) => {
 
       if (currentIndex >= total - 1) {
         const type = calculateType(nextAnswers, questions);
-        setTimeout(() => setResultType(type), 400);
+        setTimeout(() => {
+          apiClient.submitQuiz(nextAnswers)
+            .then((result) => setResultType(result.type || type))
+            .catch(() => setResultType(type));
+        }, 400);
       } else {
         setTimeout(() => setCurrentIndex((prev) => prev + 1), 250);
       }

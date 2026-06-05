@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiClient } from '../services/apiClient';
 
 type CacheEntry = {
   data?: unknown;
@@ -12,20 +13,19 @@ const createErrorMessage = (path: string, reason: string) => {
   return `加载数据失败：${path}（${reason}）`;
 };
 
-// ✅ 统一处理 GitHub Pages base
+// 统一处理 GitHub Pages base
 const resolvePath = (path: string) => {
   const base = import.meta.env.BASE_URL; // dev: "/"  pages: "/firstWeb/"
   const p = path.replace(/^\/+/, '');    // 去掉开头的 /
   return `${base}${p}`;                 // "/firstWeb/" + "data/xxx.json"
 };
 
-const fetchJson = (rawPath: string): Promise<unknown> => {
+const isDataPath = (path: string) => /^\/?data\/.+\.json$/i.test(path);
+
+const fetchStaticJson = (rawPath: string): Promise<unknown> => {
   const path = resolvePath(rawPath);
 
-  const cached = cache.get(path);
-  if (cached?.promise) return cached.promise;
-
-  const promise = fetch(path)
+  return fetch(path)
     .then(async (res) => {
       if (!res.ok) throw new Error(createErrorMessage(path, `HTTP ${res.status}`));
       try {
@@ -33,18 +33,30 @@ const fetchJson = (rawPath: string): Promise<unknown> => {
       } catch {
         throw new Error(`数据解析失败：${path}`);
       }
-    })
+    });
+};
+
+const fetchJson = (rawPath: string): Promise<unknown> => {
+  const path = resolvePath(rawPath);
+  const cacheKey = isDataPath(rawPath) ? `api-first:${rawPath}` : path;
+
+  const cached = cache.get(cacheKey);
+  if (cached?.promise) return cached.promise;
+
+  const promise = (isDataPath(rawPath)
+    ? apiClient.getData(rawPath).catch(() => fetchStaticJson(rawPath))
+    : fetchStaticJson(rawPath))
     .then((data) => {
-      cache.set(path, { data });
+      cache.set(cacheKey, { data });
       return data;
     })
     .catch((err) => {
       const message = err instanceof Error ? err.message : createErrorMessage(path, '未知错误');
-      cache.set(path, { error: message });
+      cache.set(cacheKey, { error: message });
       throw new Error(message);
     });
 
-  cache.set(path, { promise });
+  cache.set(cacheKey, { promise });
   return promise;
 };
 
@@ -64,7 +76,8 @@ export const useData = <T,>(rawPath: string) => {
     }
 
     const path = resolvePath(rawPath);
-    const cached = cache.get(path);
+    const cacheKey = isDataPath(rawPath) ? `api-first:${rawPath}` : path;
+    const cached = cache.get(cacheKey);
 
     if (cached?.data) {
       setData(cached.data as T);

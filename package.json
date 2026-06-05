@@ -5,8 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "node scripts/run-vite-build.mjs",
+    "preview": "vite preview",
+    "backend:dev": "node backend/node_server.mjs",
+    "backend:dev:fastapi": "python -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000",
+    "check": "npm run workbench:verify",
+    "check:data": "node scripts/validate-data.mjs",
+    "check:types": "tsc --noEmit",
+    "check:backend": "python -m compileall -q backend && node --check backend/node_server.mjs",
+    "workbench:manifest": "node scripts/workbench-manifest.mjs --write",
+    "workbench:verify": "node scripts/workbench-verify.mjs",
+    "workbench:loop": "node scripts/workbench-loop.mjs"
   },
   "dependencies": {
     "react": "^19.2.3",

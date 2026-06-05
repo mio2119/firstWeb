@@ -45,7 +45,7 @@ const Admissions: React.FC = () => {
 
   const tagOptions = useMemo(() => {
     const tagPriority = ["985", "211", "C9", "Double First-Class", "Local Top", "Innovation", "Normal", "Medical"];
-    const uniqueTags = Array.from(new Set(universityIndex.flatMap((uni) => uni.tags)));
+    const uniqueTags = Array.from(new Set<string>(universityIndex.flatMap((uni) => uni.tags)));
     const ordered = [
       ...tagPriority.filter((tag) => uniqueTags.includes(tag)),
       ...uniqueTags.filter((tag) => !tagPriority.includes(tag)).sort((a, b) => a.localeCompare(b))

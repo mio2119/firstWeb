@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Sparkles, ArrowRight, GraduationCap, Radar, Compass, Bot } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { apiClient } from '../services/apiClient';
 
 interface UniversitySummary {
   id: string;
@@ -29,15 +30,10 @@ const Home: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Simulate Data Fetching
   useEffect(() => {
-    fetch('data/admissions/index_universities.json')
-      .then(res => {
-          if(!res.ok) throw new Error("Failed to fetch");
-          return res.json();
-      })
-      .then(data => {
-        setHotUniversities(data.slice(0, 4));
+    apiClient.getUniversities()
+      .then(({ items }) => {
+        setHotUniversities(items.slice(0, 4));
       })
       .catch(() => {
         setHotUniversities([

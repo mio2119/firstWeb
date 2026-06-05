@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { PlanItem, StrategyType, MOCK_USER_PLAN } from '../data/admissions/mock_user_plan';
 import type { UniversityIndexItem } from '../data/types/admissions';
+import { apiClient } from '../services/apiClient';
 
 interface PlanContextType {
   plan: PlanItem[];
@@ -12,18 +13,47 @@ interface PlanContextType {
 
 const PlanContext = createContext<PlanContextType | undefined>(undefined);
 
-export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [plan, setPlan] = useState<PlanItem[]>([]);
-
-  // 1. Initialize from LocalStorage (or Mock if empty for demo purposes)
-  useEffect(() => {
+const readLocalPlan = () => {
+  try {
     const saved = localStorage.getItem('sec_user_plan');
-    if (saved) {
-      setPlan(JSON.parse(saved));
-    } else {
-      // Load mock data for first-time demo feeling
-      setPlan(MOCK_USER_PLAN);
-    }
+    return saved ? JSON.parse(saved) as PlanItem[] : null;
+  } catch {
+    return null;
+  }
+};
+
+const syncQuietly = (task: Promise<unknown>) => {
+  task.catch((error) => {
+    console.warn('Backend plan sync skipped:', error);
+  });
+};
+
+export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [plan, setPlan] = useState<PlanItem[]>(() => readLocalPlan() ?? MOCK_USER_PLAN);
+
+  // 1. Restore from backend when available. LocalStorage remains the static fallback.
+  useEffect(() => {
+    let cancelled = false;
+
+    apiClient.getPlans()
+      .then(({ items }) => {
+        if (cancelled) return;
+        const localPlan = readLocalPlan();
+        if (items.length > 0) {
+          setPlan(items);
+          return;
+        }
+        if (!localPlan) {
+          syncQuietly(apiClient.replacePlans(MOCK_USER_PLAN));
+        }
+      })
+      .catch((error) => {
+        console.warn('Backend plan restore skipped:', error);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // 2. Persist to LocalStorage on change
@@ -44,11 +74,19 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({ children
       addedDate: new Date().toISOString().split('T')[0]
     };
 
-    setPlan(prev => [...prev, newItem]);
+    setPlan(prev => {
+      const nextPlan = [...prev, newItem];
+      syncQuietly(apiClient.replacePlans(nextPlan));
+      return nextPlan;
+    });
   };
 
   const removeFromPlan = (uniId: string) => {
-    setPlan(prev => prev.filter(item => item.uniId !== uniId));
+    setPlan(prev => {
+      const nextPlan = prev.filter(item => item.uniId !== uniId);
+      syncQuietly(apiClient.replacePlans(nextPlan));
+      return nextPlan;
+    });
   };
 
   const isInPlan = (uniId: string) => {

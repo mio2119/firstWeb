@@ -1,16 +1,33 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Save, Download, Upload, AlertTriangle, PenTool, MapPin, Hash, Target, Book } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
-
-const PROVINCES = ["Beijing", "Shanghai", "Guangdong", "Zhejiang", "Hubei", "Sichuan", "Jiangsu"];
+import {
+  CHINA_PROVINCE_CITY_GROUPS,
+  CITY_NAMES,
+  PROVINCE_NAMES,
+  normalizeProvinceName,
+} from '../../data/profile/chinaLocations';
 
 const SettingsPanel: React.FC = () => {
   const { profile, updateProfile, exportData, importData, resetData } = useUser();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const selectedProvince = normalizeProvinceName(profile.province);
+  const hasCustomProvince = Boolean(profile.province && !PROVINCE_NAMES.includes(selectedProvince));
+  const hasCustomTargetCity = Boolean(profile.targetCity && !CITY_NAMES.includes(profile.targetCity));
+
+  useEffect(() => {
+    if (profile.province && selectedProvince !== profile.province) {
+      updateProfile({ province: selectedProvince });
+    }
+  }, [profile.province, selectedProvince, updateProfile]);
   
   const handleChange = (field: string, value: any) => {
     updateProfile({ [field]: value });
+  };
+
+  const handleProvinceChange = (value: string) => {
+    updateProfile({ province: value });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,12 +74,13 @@ const SettingsPanel: React.FC = () => {
                             始发地 (Origin)
                         </label>
                         <select 
-                            value={profile.province} 
-                            onChange={(e) => handleChange('province', e.target.value)}
+                            value={selectedProvince} 
+                            onChange={(e) => handleProvinceChange(e.target.value)}
                             className="w-full bg-transparent border-b-2 border-stone-300 py-2 text-lg font-bold text-stone-800 focus:border-amber-600 focus:outline-none transition-colors appearance-none cursor-pointer"
                         >
                             <option value="">选择省份...</option>
-                            {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
+                            {hasCustomProvince && <option value={selectedProvince}>{selectedProvince}</option>}
+                            {PROVINCE_NAMES.map(p => <option key={p} value={p}>{p}</option>)}
                         </select>
                     </div>
 
@@ -71,13 +89,19 @@ const SettingsPanel: React.FC = () => {
                             <Target className="w-3 h-3" />
                             目的地 (Destination)
                         </label>
-                        <input 
-                            type="text" 
+                        <select 
                             value={profile.targetCity} 
                             onChange={(e) => handleChange('targetCity', e.target.value)}
-                            className="w-full bg-transparent border-b-2 border-stone-300 py-2 text-lg font-bold text-stone-800 focus:border-amber-600 focus:outline-none transition-colors placeholder-stone-300"
-                            placeholder="意向城市"
-                        />
+                            className="w-full bg-transparent border-b-2 border-stone-300 py-2 text-lg font-bold text-stone-800 focus:border-amber-600 focus:outline-none transition-colors appearance-none cursor-pointer"
+                        >
+                            <option value="">意向城市</option>
+                            {hasCustomTargetCity && <option value={profile.targetCity}>{profile.targetCity}</option>}
+                            {CHINA_PROVINCE_CITY_GROUPS.map(group => (
+                                <optgroup key={group.province} label={group.province}>
+                                    {group.cities.map(city => <option key={`${group.province}-${city}`} value={city}>{city}</option>)}
+                                </optgroup>
+                            ))}
+                        </select>
                     </div>
                 </div>
 

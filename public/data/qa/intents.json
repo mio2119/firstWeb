@@ -9,8 +9,8 @@
   },
   {
     "id": "admissions_plan",
-    "keywords": ["志愿", "填报", "冲稳保", "梯度", "院校库", "报考", "admissions"],
-    "regex": [],
+    "keywords": ["志愿", "填报", "冲稳保", "梯度", "院校库", "报考", "学校", "院校", "能报", "能上", "可报", "admissions"],
+    "regex": ["\\d{3}\\s*(分|score).*(能报|能上|学校|院校)", "(能报|能上|可报).*(学校|院校)"],
     "negative": ["不聊志愿"],
     "requiredSlots": ["score"],
     "templateGroup": "admissions_plan",

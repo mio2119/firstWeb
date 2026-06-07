@@ -15,7 +15,10 @@
     "check:backend": "python -m compileall -q backend && node --check backend/node_server.mjs",
     "workbench:manifest": "node scripts/workbench-manifest.mjs --write",
     "workbench:verify": "node scripts/workbench-verify.mjs",
-    "workbench:loop": "node scripts/workbench-loop.mjs"
+    "workbench:loop": "node scripts/workbench-loop.mjs",
+    "demo:manifest": "node scripts/minimal-demo-manifest.mjs --write",
+    "demo:verify": "node scripts/minimal-demo-verify.mjs",
+    "demo:loop": "node scripts/minimal-demo-loop.mjs"
   },
   "dependencies": {
     "react": "^19.2.3",

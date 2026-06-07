@@ -1,0 +1,52 @@
+{
+  "purpose": "Minimal demo guardrails for the Hui Zhao Qi Ya proposal demo.",
+  "protectedVisualFiles": [
+    "src/pages/Intro.tsx"
+  ],
+  "allowedVisualChangeFiles": [
+    "src/pages/Home.tsx",
+    "src/pages/Admissions.tsx",
+    "src/pages/QuizResult.tsx",
+    "src/pages/Explore.tsx",
+    "src/pages/QA.tsx",
+    "src/components/admissions/ScoreHero.tsx",
+    "src/components/admissions/UniversityDetailPanel.tsx",
+    "src/components/admissions/UniversityGrid.tsx",
+    "src/components/admissions/PlanBlueprintSheet.tsx",
+    "src/components/qa/ChatInterface.tsx"
+  ],
+  "allowedVisualNewFilePrefixes": [
+    "src/components/demo/",
+    "src/components/admissions/Major",
+    "src/components/admissions/Decode",
+    "src/components/admissions/Report"
+  ],
+  "allowedNonVisualChangeFiles": [
+    "src/data/types/admissions.ts",
+    "src/data/types/explore.ts",
+    "src/data/types/quiz.ts",
+    "src/hooks/useSmartQA.ts",
+    "src/hooks/useQAMatcher.ts",
+    "public/data/provinces/gd/universities.json",
+    "public/data/provinces/gd/scores.json",
+    "public/data/qa/intents.json",
+    "public/data/qa/templates.json",
+    "public/data/meta/synonyms.json",
+    "public/data/quiz/mapping.json",
+    "public/data/explore/careers_index.json",
+    "public/data/explore/careers_detail/c001.json",
+    "public/data/explore/careers_detail/c002.json",
+    "public/data/explore/careers_detail/c003.json",
+    "public/data/explore/careers_detail/c004.json",
+    "public/data/explore/careers_detail/c005.json"
+  ],
+  "requiredDemoSignals": [
+    "专业黑盒",
+    "专业解码",
+    "课程体系",
+    "能力要求",
+    "职业路径",
+    "推荐理由",
+    "风险提示"
+  ]
+}

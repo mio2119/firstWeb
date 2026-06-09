@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, MapPin, SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { Search, MapPin, RotateCcw, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface SearchFilterBarProps {
@@ -11,6 +11,7 @@ interface SearchFilterBarProps {
   onTagChange: (val: string) => void;
   provinces: string[];
   tags: string[];
+  onResetFilters?: () => void;
 }
 
 const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
@@ -21,7 +22,8 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
   selectedTag,
   onTagChange,
   provinces,
-  tags
+  tags,
+  onResetFilters
 }) => {
   const allTag = tags[0] || "All Tiers";
 
@@ -89,9 +91,13 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
                 </button>
             ))}
             
-            {/* Filter Icon for more (Visual only) */}
-            <button className="h-12 w-12 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-amber-600 hover:border-amber-500 bg-white transition-all">
-                <SlidersHorizontal className="w-4 h-4" />
+            <button
+                type="button"
+                onClick={onResetFilters}
+                className="h-12 w-12 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-amber-600 hover:border-amber-500 bg-white transition-all"
+                title="重置筛选"
+            >
+                <RotateCcw className="w-4 h-4" />
             </button>
           </div>
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useData } from './useData';
 import type { CareerIndexItem } from '../data/types/explore';
 
@@ -108,23 +108,33 @@ export const useExplore = () => {
   }, [careersIndex, userPrefs, searchQuery, selectedTag, synonymData]);
 
   // Actions
-  const finishCompass = (prefs: GuidePrefs) => {
+  const finishCompass = useCallback((prefs: GuidePrefs) => {
     setUserPrefs(prefs);
     setStep('matrix');
-  };
+  }, []);
 
-  const resetExplore = () => {
+  const resetExplore = useCallback(() => {
     setStep('guide');
     setUserPrefs({ activity: null, value: null, investment: null });
     setSearchQuery('');
     setSelectedTag('全部');
-  };
+  }, []);
+
+  const showMatrix = useCallback(() => {
+    setStep('matrix');
+  }, []);
+
+  const openCareer = useCallback((careerId: string) => {
+    setStep('matrix');
+    setSelectedCareerId(careerId);
+  }, []);
 
   return {
     step,
     userPrefs,
     finishCompass,
     resetExplore,
+    showMatrix,
     // Matrix Props
     searchQuery,
     setSearchQuery,
@@ -136,6 +146,7 @@ export const useExplore = () => {
     filteredCareers,
     // Drawer Props
     selectedCareerId,
-    setSelectedCareerId
+    setSelectedCareerId,
+    openCareer
   };
 };

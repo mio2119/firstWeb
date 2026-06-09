@@ -1,0 +1,30 @@
+doctor:
+  description: "Check external workbench dependencies and this project's integration readiness."
+  commands:
+    - ".\\cw.ps1 doctor"
+
+memory:
+  description: "Refresh this project's repo map, file notes, project graph, and SQLite index."
+  commands:
+    - ".\\cw.ps1 memory update"
+
+verify:
+  description: "Run the website workbench verification loop."
+  commands:
+    - ".\\cw.ps1 verify"
+
+project-scan:
+  description: "Scan this React/FastAPI website as a workbench project graph."
+  commands:
+    - ".\\cw.ps1 project scan"
+
+frontend:
+  description: "Run TypeScript and production frontend build checks."
+  commands:
+    - "npm run check:types"
+    - "npm run build"
+
+data:
+  description: "Validate public JSON data used by admissions, quiz, QA, and explore modules."
+  commands:
+    - "npm run check:data"

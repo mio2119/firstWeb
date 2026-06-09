@@ -14,6 +14,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [hotUniversities, setHotUniversities] = useState<UniversitySummary[]>([]);
+  const [searchValue, setSearchValue] = useState('');
   
   const PLACEHOLDERS = [
     "输入你的 MBTI 类型...",
@@ -81,6 +82,28 @@ const Home: React.FC = () => {
     }
   ];
 
+  const handleSearchSubmit = (event?: React.FormEvent) => {
+    event?.preventDefault();
+    const query = searchValue.trim();
+    if (!query) {
+      navigate('/admissions');
+      return;
+    }
+    const params = new URLSearchParams();
+    if (/^\d{3}$/.test(query)) {
+      params.set('score', query);
+    } else {
+      params.set('search', query);
+    }
+    navigate(`/admissions?${params.toString()}`);
+  };
+
+  const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmit(event);
+    }
+  };
+
   return (
     <div className="relative w-full pb-10 font-sans text-slate-900">
       
@@ -119,19 +142,22 @@ const Home: React.FC = () => {
             <div className="absolute inset-2 bg-slate-200 blur-xl rounded-full opacity-50" />
             
             {/* Input Container */}
-            <div className="relative flex items-center bg-white h-16 rounded-full border border-slate-200 shadow-xl shadow-slate-200/50 px-2 transition-all duration-300 focus-within:border-amber-400 focus-within:ring-1 focus-within:ring-amber-400/20">
+            <form onSubmit={handleSearchSubmit} className="relative flex items-center bg-white h-16 rounded-full border border-slate-200 shadow-xl shadow-slate-200/50 px-2 transition-all duration-300 focus-within:border-amber-400 focus-within:ring-1 focus-within:ring-amber-400/20">
                 <div className="pl-6 pr-4 text-slate-400">
                     <Search className="w-5 h-5" strokeWidth={2} />
                 </div>
                 <input 
                     type="text" 
+                    value={searchValue}
+                    onChange={(event) => setSearchValue(event.target.value)}
+                    onKeyDown={handleSearchKeyDown}
                     className="flex-1 h-full bg-transparent outline-none text-lg text-slate-800 placeholder-slate-400 font-medium"
                     placeholder={PLACEHOLDERS[placeholderIndex]}
                 />
-                <button className="h-12 w-12 rounded-full bg-amber-600 flex items-center justify-center text-white shadow-md shadow-amber-600/20 transition-all duration-300 hover:bg-amber-700 hover:scale-105 active:scale-95">
+                <button type="submit" className="h-12 w-12 rounded-full bg-amber-600 flex items-center justify-center text-white shadow-md shadow-amber-600/20 transition-all duration-300 hover:bg-amber-700 hover:scale-105 active:scale-95">
                     <ArrowRight className="w-5 h-5" strokeWidth={2} />
                 </button>
-            </div>
+            </form>
         </motion.div>
 
         {/* --- Trending Tags (Clean Pills) --- */}
@@ -150,6 +176,7 @@ const Home: React.FC = () => {
             {hotUniversities.map((uni) => (
                 <button 
                     key={uni.id} 
+                    onClick={() => navigate(`/admissions?search=${encodeURIComponent(uni.name)}`)}
                     className="px-4 py-2 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:border-amber-400 hover:text-amber-700 hover:bg-amber-50 transition-all duration-200"
                 >
                     {uni.name}

@@ -295,6 +295,126 @@
       }
     ]
   },
+  "major_black_box": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "专业黑盒怎么打开" },
+          { "type": "text", "content": "专业名常常只是一层外壳，真正要看课程体系、能力要求、职业路径和风险边界。" },
+          { "type": "list", "items": ["课程体系：四年主要学什么", "能力要求：适合怎样的学习方式", "职业路径：毕业后往哪些岗位走", "风险提示：哪些投入容易被低估"] },
+          { "type": "cta", "label": "查看院校专业解码", "description": "在院校详情里看样例卡片", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "当前为最小 demo 的结构化解释样例。" }
+        ],
+        "quickReplies": ["专业解码是什么", "为什么推荐这个专业", "专业风险有哪些"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "不要只看专业名称" },
+          { "type": "text", "content": "同一个专业在不同学校可能对应不同资源、城市产业和实践机会，解码的目标是把这些差异讲清楚。" },
+          { "type": "list", "items": ["先看核心课程是否愿意长期投入", "再看学校资源是否支撑方向", "最后看替代路径是否足够稳妥"] },
+          { "type": "cta", "label": "进入院校库", "description": "点开广东院校看专业解码", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "示例内容用于演示专业黑盒解码流程。" }
+        ],
+        "quickReplies": ["看课程体系", "看职业路径", "看风险提示"]
+      }
+    ]
+  },
+  "major_decode": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "专业解码框架" },
+          { "type": "text", "content": "我会把专业拆成六个维度：课程、能力、职业、推荐理由、风险提示和替代路径。" },
+          { "type": "list", "items": ["课程体系：基础课与专业课结构", "能力要求：数学、表达、工程或研究能力", "职业路径：典型岗位与成长方向", "替代路径：同类专业与可迁移方向"] },
+          { "type": "cta", "label": "看广东样例院校", "description": "中大、暨大、华工、深大、华师均已补样例", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "解码结果为 demo 数据，不代表正式招生结论。" }
+        ],
+        "quickReplies": ["计算机专业解码", "人工智能难不难", "心理学风险"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "从课程到决策" },
+          { "type": "text", "content": "专业解码不是简单说前景好，而是把学习成本、能力匹配和未来路径放到同一张决策表里。" },
+          { "type": "list", "items": ["能学：课程难度与基础要求", "愿学：兴趣是否可持续", "可走：就业与升学路径是否清晰"] },
+          { "type": "cta", "label": "打开招生推荐", "description": "结合学校和分数一起看", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "建议结合个人分数、城市偏好和家庭约束继续细化。" }
+        ],
+        "quickReplies": ["为什么推荐", "有什么风险", "毕业做什么"]
+      }
+    ]
+  },
+  "recommendation_reason": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "推荐理由怎么看" },
+          { "type": "text", "content": "推荐一个专业时，不能只看热门度，要看学生画像、院校资源和专业能力结构是否对齐。" },
+          { "type": "list", "items": ["学生画像：兴趣、能力、抗压和学习方式", "院校资源：强势学科、城市产业和实践场景", "专业结构：课程投入能否转化为岗位能力"] },
+          { "type": "cta", "label": "查看专业解码卡", "description": "在院校详情中查看推荐理由", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "推荐理由为演示解释框架，需结合真实招生规则复核。" }
+        ],
+        "quickReplies": ["适合我吗", "风险在哪里", "职业路径"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "可解释推荐" },
+          { "type": "text", "content": "一个可解释推荐至少要回答：为什么是这所学校、为什么是这个专业、如果不合适还有什么替代方案。" },
+          { "type": "list", "items": ["学校理由：层级、城市和资源", "专业理由：课程与能力匹配", "替代理由：相近专业或同城院校备选"] },
+          { "type": "cta", "label": "进入院校库", "description": "按学校查看推荐解释", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "当前答案用于最小 demo 展示。" }
+        ],
+        "quickReplies": ["专业黑盒", "替代路径", "风险提示"]
+      }
+    ]
+  },
+  "risk_explain": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "专业风险提示" },
+          { "type": "text", "content": "风险不是劝退，而是提前说明学习成本、竞争强度和路径不确定性。" },
+          { "type": "list", "items": ["学习风险：课程难度和基础要求被低估", "就业风险：热门岗位竞争强，需要作品或实习", "路径风险：本科出口不清晰时，可能依赖考研或深造"] },
+          { "type": "cta", "label": "查看替代路径", "description": "用相近专业降低决策风险", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "风险提示为通用演示，不替代正式志愿咨询。" }
+        ],
+        "quickReplies": ["哪些专业风险高", "替代路径是什么", "职业路径怎么看"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "先把风险说清楚" },
+          { "type": "text", "content": "专业选择最怕只看到优势，看不到代价。建议同时看难课、门槛、深造和岗位波动。" },
+          { "type": "list", "items": ["难课：数学、实验、写作或临床训练", "门槛：证书、作品集、竞赛或科研", "波动：行业周期和城市机会差异"] },
+          { "type": "cta", "label": "回到院校详情", "description": "查看具体专业风险提示", "action": { "type": "route", "path": "/admissions" } },
+          { "type": "disclaimer", "content": "请结合个人基础和家庭可承受度判断。" }
+        ],
+        "quickReplies": ["计算机风险", "医学风险", "金融科技风险"]
+      }
+    ]
+  },
+  "career_path": {
+    "variants": [
+      {
+        "blocks": [
+          { "type": "title", "content": "从专业推职业路径" },
+          { "type": "text", "content": "职业路径要从课程能力往外推：学到什么、能做什么、第一份实习如何开始。" },
+          { "type": "list", "items": ["入门阶段：课程项目和基础实习", "成长阶段：明确岗位方向并补作品", "进阶阶段：深造、证书或行业经验形成壁垒"] },
+          { "type": "cta", "label": "打开职业图谱", "description": "用职业画像反推专业", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "职业路径为示例推演，真实路径会受城市和行业周期影响。" }
+        ],
+        "quickReplies": ["毕业做什么", "职业风险", "专业替代路径"]
+      },
+      {
+        "blocks": [
+          { "type": "title", "content": "路径不是单线答案" },
+          { "type": "text", "content": "同一专业通常有技术、研究、产品、运营或公共服务等多条路径，关键是早一点确定主轴。" },
+          { "type": "list", "items": ["技术主轴：项目和工程能力", "研究主轴：论文、实验和深造", "业务主轴：行业理解和沟通协作"] },
+          { "type": "cta", "label": "查看生涯探索", "description": "把岗位画像补完整", "action": { "type": "route", "path": "/explore" } },
+          { "type": "disclaimer", "content": "建议用实习和课程反馈持续修正路径。" }
+        ],
+        "quickReplies": ["专业解码", "推荐理由", "风险提示"]
+      }
+    ]
+  },
   "major_choice": {
     "variants": [
       {

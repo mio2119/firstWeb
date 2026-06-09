@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2, Zap, Shield, Anchor, Layout } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { X, Trash2, Zap, Shield, Anchor, Layout, Download, Eraser } from 'lucide-react';
 import { PlanItem, StrategyType } from '../../data/admissions/mock_user_plan';
 import { usePlan } from '../../context/PlanContext';
 
@@ -11,7 +12,8 @@ interface PlanBlueprintSheetProps {
 
 const PlanBlueprintSheet: React.FC<PlanBlueprintSheetProps> = ({ isOpen, onClose }) => {
     // Connect to global state
-    const { plan, removeFromPlan } = usePlan();
+    const { plan, removeFromPlan, updatePlanStrategy, clearPlan } = usePlan();
+    const navigate = useNavigate();
 
     const getItemsByType = (type: StrategyType) => plan.filter(item => item.strategyType === type);
 
@@ -21,6 +23,28 @@ const PlanBlueprintSheet: React.FC<PlanBlueprintSheetProps> = ({ isOpen, onClose
 
     const handleDelete = (uniId: string) => {
         removeFromPlan(uniId);
+    };
+
+    const handleOpenUniversity = (item: PlanItem) => {
+        navigate(`/admissions?search=${encodeURIComponent(item.universityName)}`);
+        onClose();
+    };
+
+    const handleExportPlan = () => {
+        const payload = {
+            exportedAt: new Date().toISOString(),
+            total: plan.length,
+            plan
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `SmartEnroll_Plan_${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     };
 
     const renderColumn = (title: string, items: PlanItem[], colorTheme: 'rose' | 'amber' | 'emerald', icon: React.ElementType) => {
@@ -55,7 +79,8 @@ const PlanBlueprintSheet: React.FC<PlanBlueprintSheetProps> = ({ isOpen, onClose
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.9 }}
-                                    className="group relative flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all"
+                                    onClick={() => handleOpenUniversity(item)}
+                                    className="group relative flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer"
                                 >
                                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black font-serif text-white ${t.iconBg}`}>
                                         {item.logo_char}
@@ -64,12 +89,36 @@ const PlanBlueprintSheet: React.FC<PlanBlueprintSheetProps> = ({ isOpen, onClose
                                         <h4 className="text-sm font-bold text-slate-800 truncate">{item.universityName}</h4>
                                         <p className="text-[10px] text-slate-400">Added {item.addedDate}</p>
                                     </div>
-                                    <button
-                                        onClick={() => handleDelete(item.uniId)}
-                                        className="opacity-0 group-hover:opacity-100 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-rose-500 transition-all"
-                                    >
-                                        <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
+                                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        {(['rush', 'stable', 'safe'] as StrategyType[]).map((strategy) => {
+                                            const strategyIcon = strategy === 'rush' ? Zap : strategy === 'stable' ? Shield : Anchor;
+                                            const StrategyIcon = strategyIcon;
+                                            const active = item.strategyType === strategy;
+                                            return (
+                                                <button
+                                                    key={strategy}
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        updatePlanStrategy(item.uniId, strategy);
+                                                    }}
+                                                    className={`p-1.5 rounded-full transition-all ${active ? `${t.bg} ${t.text}` : 'hover:bg-slate-100 text-slate-300 hover:text-slate-500'}`}
+                                                    title={strategy === 'rush' ? '改为冲刺' : strategy === 'stable' ? '改为稳妥' : '改为保底'}
+                                                >
+                                                    <StrategyIcon className="w-3.5 h-3.5" />
+                                                </button>
+                                            );
+                                        })}
+                                        <button
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                                handleDelete(item.uniId);
+                                            }}
+                                            className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-rose-500 transition-all"
+                                            title="移除该院校"
+                                        >
+                                            <Trash2 className="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
                                 </motion.div>
                             ))
                         ) : (
@@ -121,12 +170,31 @@ const PlanBlueprintSheet: React.FC<PlanBlueprintSheetProps> = ({ isOpen, onClose
                                     <span className="text-emerald-600 font-bold ml-1">{safeItems.length} 保底</span>
                                 </p>
                             </div>
-                            <button
-                                onClick={onClose}
-                                className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors"
-                            >
-                                <X className="w-5 h-5" />
-                            </button>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={handleExportPlan}
+                                    disabled={plan.length === 0}
+                                    className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-amber-100 hover:text-amber-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                                    title="导出志愿表"
+                                >
+                                    <Download className="w-5 h-5" />
+                                </button>
+                                <button
+                                    onClick={clearPlan}
+                                    disabled={plan.length === 0}
+                                    className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-rose-100 hover:text-rose-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                                    title="清空志愿表"
+                                >
+                                    <Eraser className="w-5 h-5" />
+                                </button>
+                                <button
+                                    onClick={onClose}
+                                    className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors"
+                                    title="关闭"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
                         </div>
 
                         {/* --- Blueprint Grid --- */}

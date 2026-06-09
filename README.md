@@ -25,3 +25,16 @@ View your app in AI Studio: https://ai.studio/apps/drive/1m1A0oWggtN34AjklWDYyus
 `node scripts/validate-data.mjs`
 
 校验结果会写入：`public/data/meta/validation_report.json`
+
+## 使用 D:\工作台
+
+本项目已接入外部 Codex Workbench。可在项目根目录直接运行：
+
+```powershell
+.\cw.ps1 doctor
+.\cw.ps1 project scan
+.\cw.ps1 verify
+.\cw.ps1 run list
+```
+
+`cw.ps1`/`wb.ps1` 会调用 `D:\工作台` 的工作台引擎，但把数据库、日志和索引写入本项目的 `.workbench`。项目专属任务在 `.codex-workbench/tasks.yaml`，校验入口会运行 `npm run check`。

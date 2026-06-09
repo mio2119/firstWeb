@@ -1,0 +1,96 @@
+schemaVersion: 1
+
+workspace:
+  root: "."
+  stateDir: ".workbench"
+  artifactsDir: ".workbench/artifacts"
+
+database:
+  path: ".workbench/workbench.sqlite"
+
+vector:
+  provider: "builtin-hash"
+  dimensions: 384
+  chunkSize: 1200
+  chunkOverlap: 160
+  include:
+    - "**/*"
+  exclude:
+    - ".git/**"
+    - ".workbench/**"
+    - ".codex-workbench/browser/node_modules/**"
+    - ".codex-workbench/browser/package-lock.json"
+    - "node_modules/**"
+    - "dist/**"
+    - "build/**"
+    - "backend/runtime/**"
+    - ".env"
+    - ".env.*"
+    - "**/*secret*"
+    - "**/*token*"
+  maxFileBytes: 524288
+
+agents:
+  maxParallel: 4
+  defaultTimeoutSeconds: 900
+  runner: "package"
+  rolesDir: ".codex-workbench/agents"
+
+projects:
+  manifests:
+    - "package.json"
+    - "requirements.txt"
+  exclude:
+    - ".git/**"
+    - ".workbench/**"
+    - ".codex-workbench/**"
+    - "node_modules/**"
+    - "dist/**"
+    - "build/**"
+    - "backend/runtime/**"
+
+tasks:
+  catalog: ".codex-workbench/tasks.yaml"
+  logDir: ".workbench/artifacts/task-runs"
+  defaultTask: "verify"
+
+browser:
+  headless: true
+  allowedHosts:
+    - "localhost"
+    - "127.0.0.1"
+    - "::1"
+  viewport:
+    width: 1440
+    height: 900
+  screenshotDir: ".workbench/screenshots"
+  failOnConsoleError: true
+  runtimeDir: ".codex-workbench/browser"
+
+github:
+  enabled: true
+  remote: "origin"
+  defaultBranch: "main"
+  ciProvider: "github-actions"
+  allowRerun: false
+  allowPush: false
+
+verification:
+  maxAutoFixRounds: 3
+  commands:
+    - "npm run check"
+
+risk:
+  requireConfirmFor:
+    - "delete"
+    - "git-push"
+    - "db-reset"
+    - "secrets-read"
+  allowedWriteRoots:
+    - "."
+  deniedPaths:
+    - ".git/**"
+    - ".env"
+    - ".env.*"
+    - "**/*secret*"
+    - "**/*token*"

@@ -13,7 +13,7 @@ export interface PlanItem {
 export const MOCK_USER_PLAN: PlanItem[] = [
   {
     id: "p1",
-    uniId: "u1",
+    uniId: "u001",
     universityName: "北京大学",
     logo_char: "北",
     strategyType: "rush",
@@ -21,7 +21,7 @@ export const MOCK_USER_PLAN: PlanItem[] = [
   },
   {
     id: "p2",
-    uniId: "u3",
+    uniId: "u003",
     universityName: "复旦大学",
     logo_char: "复",
     strategyType: "rush",
@@ -29,7 +29,7 @@ export const MOCK_USER_PLAN: PlanItem[] = [
   },
   {
     id: "p3",
-    uniId: "u4",
+    uniId: "u005",
     universityName: "浙江大学",
     logo_char: "浙",
     strategyType: "stable",
@@ -37,7 +37,7 @@ export const MOCK_USER_PLAN: PlanItem[] = [
   },
   {
     id: "p4",
-    uniId: "u8",
+    uniId: "u013",
     universityName: "武汉大学",
     logo_char: "武",
     strategyType: "safe",
@@ -45,7 +45,7 @@ export const MOCK_USER_PLAN: PlanItem[] = [
   },
   {
     id: "p5",
-    uniId: "u7",
+    uniId: "u011",
     universityName: "深圳大学",
     logo_char: "深",
     strategyType: "safe",

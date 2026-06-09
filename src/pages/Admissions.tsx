@@ -9,6 +9,8 @@ import UniversityGrid from '../components/admissions/UniversityGrid.tsx';
 import UniversityDetailPanel from '../components/admissions/UniversityDetailPanel.tsx';
 import PlanBlueprintSheet from '../components/admissions/PlanBlueprintSheet.tsx';
 import { useData } from '../hooks/useData';
+import { useUser } from '../context/UserContext';
+import { hasProvinceDetailData } from '../data/admissions/detailAvailability';
 import type { UniversityIndexItem } from '../data/types/admissions';
 
 const ALL_REGIONS = "All Regions";
@@ -16,6 +18,7 @@ const ALL_TIERS = "All Tiers";
 
 const Admissions: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const { addToHistory } = useUser();
   const [userScore, setUserScore] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedUniversity, setSelectedUniversity] = useState<UniversityIndexItem | null>(null);
@@ -55,8 +58,9 @@ const Admissions: React.FC = () => {
 
   const selectedProvinceCode =
     selectedProvince === ALL_REGIONS ? null : provinceMeta.codeMap.get(selectedProvince) ?? null;
-  const provinceDataPath = selectedProvinceCode ? `data/provinces/${selectedProvinceCode}/universities.json` : '';
-  const provinceScoresPath = selectedProvinceCode ? `data/provinces/${selectedProvinceCode}/scores.json` : '';
+  const shouldPrefetchProvinceDetails = hasProvinceDetailData(selectedProvinceCode);
+  const provinceDataPath = shouldPrefetchProvinceDetails ? `data/provinces/${selectedProvinceCode}/universities.json` : '';
+  const provinceScoresPath = shouldPrefetchProvinceDetails ? `data/provinces/${selectedProvinceCode}/scores.json` : '';
 
   useData<Record<string, unknown>>(provinceDataPath);
   useData<Record<string, unknown>>(provinceScoresPath);
@@ -64,6 +68,16 @@ const Admissions: React.FC = () => {
   // Handle URL Query Params (Cross-Page Linkage)
   useEffect(() => {
     const query = searchParams.get('search');
+    const score = searchParams.get('score');
+    const numericQuery = query && /^\d{3}$/.test(query) ? Number(query) : null;
+    const scoreValue = score && /^\d{3}$/.test(score) ? Number(score) : numericQuery;
+
+    if (scoreValue && scoreValue >= 100 && scoreValue <= 750) {
+        setUserScore(scoreValue);
+        setSearchQuery('');
+        return;
+    }
+
     if (query) {
         setSearchQuery(query);
     }
@@ -85,12 +99,49 @@ const Admissions: React.FC = () => {
     setSelectedTag(ALL_TIERS);
   };
 
+  const handleSelectUniversity = (university: UniversityIndexItem) => {
+    setSelectedUniversity(university);
+    addToHistory({
+      type: 'browsing',
+      title: `查看院校：${university.name_cn}`,
+      path: `/admissions?search=${encodeURIComponent(university.name_cn)}`,
+      content: `${university.province} · ${university.tags.join(' / ')}`
+    });
+  };
+
+  const listingMode = userScore > 0 || searchQuery.trim().length > 0;
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const searchAliases: Record<string, string[]> = {
+    '计算机': ['engineering', 'innovation', '科技', '软件', '人工智能'],
+    '软件': ['engineering', 'innovation'],
+    '人工智能': ['engineering', 'innovation'],
+    '教育': ['normal', '师范'],
+    '心理': ['normal', 'comprehensive'],
+    '医学': ['medical'],
+    '临床': ['medical'],
+    '法学': ['comprehensive'],
+    '金融': ['comprehensive'],
+    '新闻': ['comprehensive']
+  };
+  const aliasTerms = Object.entries(searchAliases)
+    .filter(([key]) => normalizedSearch.includes(key))
+    .flatMap(([, terms]) => terms.map((term) => term.toLowerCase()));
+
   // Logic: Filter the index data
   const filteredUniversities = universityIndex.filter(uni => {
     // 1. Text Search (Name or CN Name)
-    const matchesSearch = 
+    const searchableText = [
+        uni.name,
+        uni.name_cn,
+        uni.province,
+        uni.type,
+        ...uni.tags
+    ].join(' ').toLowerCase();
+    const matchesSearch = !normalizedSearch ||
         uni.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        uni.name_cn.includes(searchQuery);
+        uni.name_cn.includes(searchQuery) ||
+        searchableText.includes(normalizedSearch) ||
+        aliasTerms.some((term) => searchableText.includes(term));
 
     // 2. Province Filter
     const matchesProvince = selectedProvince === ALL_REGIONS || uni.province === selectedProvince;
@@ -130,7 +181,7 @@ const Admissions: React.FC = () => {
           <AnimatePresence mode="wait">
               
               {/* --- Phase 1: Score Input Hero --- */}
-              {!userScore && (
+              {!listingMode && (
                   <motion.div
                       key="hero"
                       {...({
@@ -146,7 +197,7 @@ const Admissions: React.FC = () => {
               )}
 
               {/* --- Phase 2: Index & Listing --- */}
-              {userScore > 0 && (
+              {listingMode && (
                   <motion.div
                       key="list"
                       {...({
@@ -170,8 +221,10 @@ const Admissions: React.FC = () => {
                               className="hidden md:flex items-center gap-3 bg-[#0A2463] text-white pl-4 pr-2 py-2 rounded-full shadow-lg shadow-[#0A2463]/20 hover:bg-amber-600 transition-colors group"
                           >
                               <div className="flex flex-col items-end leading-none">
-                                  <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">我的分数</span>
-                                  <span className="text-xl font-black font-mono">{userScore} <span className="text-xs font-bold">分</span></span>
+                                  <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">{userScore ? '我的分数' : '当前检索'}</span>
+                                  <span className="text-xl font-black font-mono">
+                                    {userScore ? userScore : '重置'} {userScore > 0 && <span className="text-xs font-bold">分</span>}
+                                  </span>
                               </div>
                               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-amber-600 transition-colors">
                                   <Edit3 className="w-4 h-4" />
@@ -180,7 +233,7 @@ const Admissions: React.FC = () => {
                       </div>
 
                       {/* Filter Bar Component */}
-                      <SearchFilterBar 
+                          <SearchFilterBar
                           searchQuery={searchQuery}
                           onSearchChange={setSearchQuery}
                           selectedProvince={selectedProvince}
@@ -189,6 +242,7 @@ const Admissions: React.FC = () => {
                           onTagChange={setSelectedTag}
                           provinces={provinceMeta.provinces}
                           tags={tagOptions}
+                          onResetFilters={handleReset}
                       />
 
                       {/* --- Content Area --- */}
@@ -220,7 +274,7 @@ const Admissions: React.FC = () => {
                       ) : (
                           <UniversityGrid 
                               universities={filteredUniversities} 
-                              onSelect={setSelectedUniversity}
+                              onSelect={handleSelectUniversity}
                           />
                       )}
                   </motion.div>
@@ -228,7 +282,7 @@ const Admissions: React.FC = () => {
           </AnimatePresence>
 
           {/* --- Blueprint Floating Action Button (FAB) --- */}
-          {userScore > 0 && (
+          {listingMode && (
               <motion.button
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}

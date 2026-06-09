@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-06-07T13:06:10.086Z",
+  "ok": true,
+  "checks": [
+    {
+      "name": "minimal demo workbench file: docs/workbench/minimal-demo-config.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: docs/workbench/minimal-demo-workbench.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: docs/workbench/minimal-demo-check-loop.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: docs/workbench/minimal-demo-claude-code.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: docs/workbench/minimal-demo-change-log.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: docs/workbench/minimal-demo-style-baseline.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: .agents/minimal-demo-agents.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: .codex/minimal-demo-memory.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: scripts/minimal-demo-manifest.mjs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: scripts/minimal-demo-verify.mjs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo workbench file: scripts/minimal-demo-loop.mjs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Intro page unchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "visual changes limited to minimal demo allowlist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "visual change log mentions changed files",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "minimal demo narrative signals present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "node syntax: scripts/minimal-demo-manifest.mjs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "node syntax: scripts/minimal-demo-verify.mjs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "node syntax: scripts/minimal-demo-loop.mjs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "data validation",
+      "ok": true,
+      "detail": "> 慧招启涯@0.0.0 check:data\n> node scripts/validate-data.mjs\n\nValidation finished. Report: public/data/meta/validation_report.json"
+    },
+    {
+      "name": "typescript type check",
+      "ok": true,
+      "detail": "> 慧招启涯@0.0.0 check:types\n> tsc --noEmit"
+    },
+    {
+      "name": "frontend build",
+      "ok": true,
+      "detail": "\u001b[33m\n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\u001b[39m"
+    }
+  ],
+  "nextAction": "Minimal demo checks passed."
+}

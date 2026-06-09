@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import ExploreBackground from '../components/layout/ExploreBackground.tsx';
 import ExploreCompass from '../components/explore/ExploreCompass.tsx';
 import CareerGrid from '../components/explore/CareerGrid.tsx';
@@ -8,18 +9,36 @@ import { useExplore } from '../hooks/useExplore';
 import { Compass } from 'lucide-react';
 
 const Explore: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const { 
     step, 
     finishCompass, 
     resetExplore,
+    showMatrix,
     searchQuery, setSearchQuery,
     selectedTag, setSelectedTag,
     categories,
     indexLoading,
     indexError,
     filteredCareers,
-    selectedCareerId, setSelectedCareerId
+    selectedCareerId, setSelectedCareerId,
+    openCareer
   } = useExplore();
+
+  useEffect(() => {
+    const careerId = searchParams.get('career');
+    const query = searchParams.get('search') || searchParams.get('q');
+
+    if (careerId) {
+      openCareer(careerId);
+      return;
+    }
+
+    if (query) {
+      showMatrix();
+      setSearchQuery(query);
+    }
+  }, [openCareer, searchParams, setSearchQuery, showMatrix]);
 
   return (
     <div className="relative w-full min-h-screen pb-20">
@@ -76,7 +95,7 @@ const Explore: React.FC = () => {
                           categories={categories}
                           loading={indexLoading}
                           error={indexError}
-                          onSelect={setSelectedCareerId}
+                          onSelect={openCareer}
                           onReset={resetExplore}
                       />
                   </motion.div>

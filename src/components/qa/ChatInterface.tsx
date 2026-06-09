@@ -31,16 +31,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, isTyping, quick
     }
   }, [messages, isTyping]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
-    onSendMessage(inputValue);
+  const handleSend = (value = inputValue) => {
+    const message = value.trim();
+    if (!message) return;
+    onSendMessage(message);
     setInputValue("");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        handleSend();
+        handleSend(e.currentTarget.value);
     }
   };
 
@@ -82,9 +83,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, isTyping, quick
     const Icon = style.icon;
 
     return (
-      <div
+      <button
+        type="button"
         onClick={() => navigate(route)}
-        className={`mt-3 p-4 rounded-xl border cursor-pointer transition-all duration-300 hover:scale-[1.02] flex items-center justify-between gap-4 ${style.className}`}
+        className={`mt-3 w-full p-4 rounded-xl border cursor-pointer text-left transition-all duration-300 hover:scale-[1.02] flex items-center justify-between gap-4 ${style.className}`}
       >
         <div className="flex items-center gap-3">
           <div className={`p-2 bg-white rounded-lg ${style.iconClass}`}><Icon className="w-5 h-5" /></div>
@@ -94,7 +96,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, isTyping, quick
           </div>
         </div>
         <ArrowRight className="w-4 h-4" />
-      </div>
+      </button>
     );
   };
 

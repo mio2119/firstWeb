@@ -1,0 +1,94 @@
+{
+  "generatedAt": "2026-06-07T08:28:12.254Z",
+  "purpose": "Baseline before the minimal proposal demo changes. Intro must remain unchanged.",
+  "watchedRoots": [
+    "src/pages",
+    "src/components"
+  ],
+  "config": {
+    "purpose": "Minimal demo guardrails for the Hui Zhao Qi Ya proposal demo.",
+    "protectedVisualFiles": [
+      "src/pages/Intro.tsx"
+    ],
+    "allowedVisualChangeFiles": [
+      "src/pages/Home.tsx",
+      "src/pages/Admissions.tsx",
+      "src/pages/QuizResult.tsx",
+      "src/pages/Explore.tsx",
+      "src/pages/QA.tsx",
+      "src/components/admissions/ScoreHero.tsx",
+      "src/components/admissions/UniversityDetailPanel.tsx",
+      "src/components/admissions/UniversityGrid.tsx",
+      "src/components/admissions/PlanBlueprintSheet.tsx",
+      "src/components/qa/ChatInterface.tsx"
+    ],
+    "allowedVisualNewFilePrefixes": [
+      "src/components/demo/",
+      "src/components/admissions/Major",
+      "src/components/admissions/Decode",
+      "src/components/admissions/Report"
+    ],
+    "allowedNonVisualChangeFiles": [
+      "src/data/types/admissions.ts",
+      "src/data/types/explore.ts",
+      "src/data/types/quiz.ts",
+      "src/hooks/useSmartQA.ts",
+      "src/hooks/useQAMatcher.ts",
+      "public/data/provinces/gd/universities.json",
+      "public/data/provinces/gd/scores.json",
+      "public/data/qa/intents.json",
+      "public/data/qa/templates.json",
+      "public/data/meta/synonyms.json",
+      "public/data/quiz/mapping.json",
+      "public/data/explore/careers_index.json",
+      "public/data/explore/careers_detail/c001.json",
+      "public/data/explore/careers_detail/c002.json",
+      "public/data/explore/careers_detail/c003.json",
+      "public/data/explore/careers_detail/c004.json",
+      "public/data/explore/careers_detail/c005.json"
+    ],
+    "requiredDemoSignals": [
+      "专业黑盒",
+      "专业解码",
+      "课程体系",
+      "能力要求",
+      "职业路径",
+      "推荐理由",
+      "风险提示"
+    ]
+  },
+  "entries": {
+    "src/components/admissions/AddToPlanButton.tsx": "0a52c48217422b4820684a4f692275994fd5d9e53876c750a38ec326836d1433",
+    "src/components/admissions/PlanBlueprintSheet.tsx": "897d8d4e5f97831c40d75e93ab29cbcf9ce034f482c9fad69f1d7932a6886029",
+    "src/components/admissions/ScoreHero.tsx": "9515315df48d29b7e6971258fd63bd3dff5135e8908671104c6a7f3041d0be0f",
+    "src/components/admissions/SearchFilterBar.tsx": "6775b0e7757801420f049c34b64b516f88893701628af5d037b24ca2aa44ece3",
+    "src/components/admissions/UniversityDetailPanel.tsx": "bbb6dc157c9a4a6495e021a35fd16e7600c7eb0b2f8a872d7b6066685549e419",
+    "src/components/admissions/UniversityGrid.tsx": "88fade75a4075a5a90eb97c6681aa8f4fe6ef3290d07101377cfead3a5bd6930",
+    "src/components/common/MagneticButton.tsx": "cfdafc69c6a9444d1a7d67411fe14e0c779d2f3cfe066e4546f10371780b443f",
+    "src/components/explore/CareerDetailModal.tsx": "f86cbf67ad037c77bab2c41bfbc85640047838c553e540f615554ace63310ba7",
+    "src/components/explore/CareerDrawer.tsx": "fc993deacfb56940ba18c87ee5bffba34f2e571ce7866d023eece0fef51892a5",
+    "src/components/explore/CareerGrid.tsx": "9fc728e53763c1eaa5646e999d42a7ec4519588a2ceaa6ddc43a089ec5b2319e",
+    "src/components/explore/ExploreCompass.tsx": "a7c8d3bdf4cb08429d71384d6938b61ef7e1e07ad3914d013b223e1da88d055c",
+    "src/components/layout/AdmissionsBackground.tsx": "e47d28684419f290a606b95ff929287e04c77390eea8e7f8d2eef757d34f3166",
+    "src/components/layout/DockNavigation.tsx": "550b262ac85f432800db0f7115fb9253098dd715583fcbd058d3f12ce1f1ff47",
+    "src/components/layout/ExploreBackground.tsx": "32daad66707119ea316303e7db06001bce094875ef550468ed8e601cfa962a29",
+    "src/components/layout/MainLayout.tsx": "538e4131bfc4de0f6a8378ffb9bb7e2f48be494aac9940a9cf8cbb2accf8ef13",
+    "src/components/layout/MBTIBackground.tsx": "b7fa57541a90cd0ea252a06a453ec970186a32b0fed9d907549bf66eda27e03a",
+    "src/components/layout/MBTIBlurredBackground.tsx": "45d2c3a95f0f6562387ffc926ad864d46dfe7bc54fe13d4eeb281de38058f6ed",
+    "src/components/layout/QABackground.tsx": "f3ab06fcce6a2f837750b04d1f99a709e2d7637b1c90ff51c72096972757b4b9",
+    "src/components/profile/FavoritesPanel.tsx": "12827bd507759849db9c5e815e5b6b586bb4ea0a8057cddc0c87d403b9848da2",
+    "src/components/profile/HistoryPanel.tsx": "e48afe936619f19e2e4a7e5f6d81d310a6a549ea7962d8f6ecbd8b8b2fffd3b6",
+    "src/components/profile/ProfileHeader.tsx": "5c29d087ab88ddf7d6e0d538a1198ab33001b65ed93a54c066928cf15f11239b",
+    "src/components/profile/SettingsPanel.tsx": "e24b873b6a6b895702ab9e4fcaebd0c3ad1884892a934a2bbd0fa2c78323b6a2",
+    "src/components/qa/ChatInterface.tsx": "3e6e29b9036582e140d19588e9f82fd6b4b4a6cb0649e448155960cc5be41caf",
+    "src/components/visuals/TiltCard.tsx": "ee18e86ccdf6f90c302ce26e9fc97abb56152e7b44d098ea609fc331f0cbb541",
+    "src/pages/Admissions.tsx": "6458d0614d3a526b947d62b404aca9cd2498ad95bac3c393c42b048dad7c6941",
+    "src/pages/Explore.tsx": "d0be8bae76c950bbd6bb7704aef4940cea162f888b0095d4910e98cdca4693a6",
+    "src/pages/Home.tsx": "b90462ed5848f33ca95dff35d1b37795729f00e91971c4db1581e5f28f1ccc3e",
+    "src/pages/Intro.tsx": "bb36144f034ced252e2771edc90e2b003e7a09775e0d683774e8f04f4d0f2362",
+    "src/pages/Profile.tsx": "593c44c38ee0f4c3a0461940df053bc3cc6c108985f5d515b129a3dd348ae952",
+    "src/pages/QA.tsx": "2bc07479ca8beb6562b01cb2c5c9d079fea6fa1ea714f5a932bf694b5b06e8d0",
+    "src/pages/Quiz.tsx": "22b6bb7668e84d9aeed535ec50f00fbe222ce0f392ac97ed8668e2095fa7b4ca",
+    "src/pages/QuizResult.tsx": "7854011be87165f61db0a2f483091f9b164589e07724da26a3ddec1942b91521"
+  }
+}

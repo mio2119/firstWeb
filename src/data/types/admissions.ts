@@ -16,10 +16,23 @@ export interface UniversityHistoryScore {
   rank: number;
 }
 
+export interface MajorDecodeItem {
+  major: string;
+  fitScore: number;
+  coreCourses: string[];
+  abilityRequirements: string[];
+  careerPaths: string[];
+  matchReasons: string[];
+  riskTips: string[];
+  alternativePaths: string[];
+}
+
 export interface UniversityDetail {
   id: string;
   description: string;
   aceMajors: string[];
+  majorDecode?: MajorDecodeItem[];
+  decisionNotes?: string[];
   scoreLine2024: number;
   minRank: number;
   location: string;

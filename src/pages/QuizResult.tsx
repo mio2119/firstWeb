@@ -13,15 +13,18 @@ import {
   ChartOptions
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
-import { 
-  BrainCircuit, 
-  TrendingUp, 
-  Scale, 
-  Globe, 
-  ArrowRight, 
-  RotateCcw, 
+import {
+  BrainCircuit,
+  TrendingUp,
+  Scale,
+  Globe,
+  ArrowRight,
+  RotateCcw,
   Sparkles,
-  Award
+  Award,
+  User,
+  Lightbulb,
+  AlertTriangle
 } from 'lucide-react';
 import MainLayout from '../components/layout/MainLayout.tsx';
 import MagneticButton from '../components/common/MagneticButton.tsx';
@@ -143,8 +146,8 @@ const QuizResult: React.FC = () => {
             className="text-center mb-10"
         >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 border border-white/80 shadow-sm backdrop-blur-md mb-4">
-                <Sparkles className="w-4 h-4 text-amber-500" />
-                <span className="text-xs font-bold tracking-widest uppercase text-slate-500">测评完成</span>
+                <User className="w-4 h-4 text-amber-500" />
+                <span className="text-xs font-bold tracking-widest uppercase text-slate-500">你的动态画像</span>
             </div>
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-[#0A2463] mb-2 drop-shadow-sm">
                 {result.type}
@@ -202,6 +205,69 @@ const QuizResult: React.FC = () => {
                 </div>
             </motion.div>
         </div>
+
+        {/* --- Dynamic Profile Tags --- */}
+        <motion.div
+            {...({
+              initial: { opacity: 0, y: 20 },
+              animate: { opacity: 1, y: 0 },
+              transition: { duration: 0.7, delay: 0.5 }
+            } as any)}
+            className="mb-12"
+        >
+            <div className="bg-white/60 backdrop-blur-xl border border-white/50 rounded-[2.5rem] p-8 shadow-[0_8px_32px_rgba(10,36,99,0.05)]">
+                <div className="flex items-center gap-3 mb-6">
+                    <Sparkles className="w-5 h-5 text-amber-500" />
+                    <h3 className="text-lg font-serif font-bold text-[#0A2463]">画像标签</h3>
+                    <span className="ml-auto text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-2 py-0.5 rounded">基于测评生成 · 示例数据</span>
+                </div>
+
+                {/* Strengths as tags */}
+                <div className="mb-5">
+                    <div className="flex items-center gap-2 mb-3">
+                        <Lightbulb className="w-4 h-4 text-emerald-500" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">核心优势</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {result.strengths.map((s, i) => (
+                            <span key={i} className="px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg text-xs font-bold">
+                                {s}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Blindspots as awareness tags */}
+                <div className="mb-5">
+                    <div className="flex items-center gap-2 mb-3">
+                        <AlertTriangle className="w-4 h-4 text-amber-500" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">需关注</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {result.blindspots.map((b, i) => (
+                            <span key={i} className="px-3 py-1.5 bg-amber-50 border border-amber-200 text-amber-700 rounded-lg text-xs font-bold">
+                                {b}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Recommended majors inline */}
+                <div>
+                    <div className="flex items-center gap-2 mb-3">
+                        <BrainCircuit className="w-4 h-4 text-[#0A2463]" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">适配专业方向</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {result.majors.map((m, i) => (
+                            <span key={i} className="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-bold shadow-sm">
+                                {m}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </motion.div>
 
         {/* --- Recommended Careers (Tilt Cards) --- */}
         <motion.div 

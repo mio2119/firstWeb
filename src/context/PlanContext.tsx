@@ -7,16 +7,44 @@ interface PlanContextType {
   plan: PlanItem[];
   addToPlan: (university: UniversityIndexItem, strategy: StrategyType) => void;
   removeFromPlan: (uniId: string) => void;
+  updatePlanStrategy: (uniId: string, strategy: StrategyType) => void;
+  clearPlan: () => void;
   isInPlan: (uniId: string) => boolean;
   getPlanItem: (uniId: string) => PlanItem | undefined;
 }
 
 const PlanContext = createContext<PlanContextType | undefined>(undefined);
 
+const LEGACY_PLAN_ID_MAP: Record<string, string> = {
+  u1: 'u001',
+  u2: 'u002',
+  u3: 'u003',
+  u4: 'u005',
+  u5: 'u008',
+  u6: 'u004',
+  u7: 'u011',
+  u8: 'u013'
+};
+
+const normalizePlan = (items: PlanItem[]) => {
+  const seen = new Set<string>();
+  return items
+    .map((item) => ({
+      ...item,
+      uniId: LEGACY_PLAN_ID_MAP[item.uniId] ?? item.uniId
+    }))
+    .filter((item) => {
+      if (seen.has(item.uniId)) return false;
+      seen.add(item.uniId);
+      return true;
+    });
+};
+
 const readLocalPlan = () => {
   try {
     const saved = localStorage.getItem('sec_user_plan');
-    return saved ? JSON.parse(saved) as PlanItem[] : null;
+    const parsed = saved ? JSON.parse(saved) as PlanItem[] : null;
+    return parsed ? normalizePlan(parsed) : null;
   } catch {
     return null;
   }
@@ -29,7 +57,7 @@ const syncQuietly = (task: Promise<unknown>) => {
 };
 
 export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [plan, setPlan] = useState<PlanItem[]>(() => readLocalPlan() ?? MOCK_USER_PLAN);
+  const [plan, setPlan] = useState<PlanItem[]>(() => readLocalPlan() ?? normalizePlan(MOCK_USER_PLAN));
 
   // 1. Restore from backend when available. LocalStorage remains the static fallback.
   useEffect(() => {
@@ -40,11 +68,15 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (cancelled) return;
         const localPlan = readLocalPlan();
         if (items.length > 0) {
-          setPlan(items);
+          const normalizedItems = normalizePlan(items);
+          setPlan(normalizedItems);
+          if (JSON.stringify(normalizedItems) !== JSON.stringify(items)) {
+            syncQuietly(apiClient.replacePlans(normalizedItems));
+          }
           return;
         }
         if (!localPlan) {
-          syncQuietly(apiClient.replacePlans(MOCK_USER_PLAN));
+          syncQuietly(apiClient.replacePlans(normalizePlan(MOCK_USER_PLAN)));
         }
       })
       .catch((error) => {
@@ -89,6 +121,21 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
+  const updatePlanStrategy = (uniId: string, strategy: StrategyType) => {
+    setPlan(prev => {
+      const nextPlan = prev.map(item => (
+        item.uniId === uniId ? { ...item, strategyType: strategy } : item
+      ));
+      syncQuietly(apiClient.replacePlans(nextPlan));
+      return nextPlan;
+    });
+  };
+
+  const clearPlan = () => {
+    setPlan([]);
+    syncQuietly(apiClient.replacePlans([]));
+  };
+
   const isInPlan = (uniId: string) => {
     return plan.some(item => item.uniId === uniId);
   };
@@ -98,7 +145,7 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <PlanContext.Provider value={{ plan, addToPlan, removeFromPlan, isInPlan, getPlanItem }}>
+    <PlanContext.Provider value={{ plan, addToPlan, removeFromPlan, updatePlanStrategy, clearPlan, isInPlan, getPlanItem }}>
       {children}
     </PlanContext.Provider>
   );

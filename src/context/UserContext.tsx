@@ -269,24 +269,19 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         favorites: data.favorites ?? favorites,
         history: data.history ?? history
       }));
-      
-      alert('档案读取成功，欢迎回来。');
     } catch (e) {
       console.error(e);
-      alert('文件格式似乎有误，无法读取。');
+      throw new Error('文件格式似乎有误，无法读取。');
     }
-  }, []);
+  }, [favorites, history, mbti, profile]);
 
   const resetData = useCallback(() => {
-    if (confirm("您确定要封存这份档案并重新开始吗？此操作不可撤销。")) {
-      localStorage.clear();
-      setProfile(DEFAULT_PROFILE);
-      setMbtiState(null);
-      setFavorites([]);
-      setHistory([]);
-      syncQuietly(apiClient.resetState());
-      alert("新篇章已开启。");
-    }
+    localStorage.clear();
+    setProfile(DEFAULT_PROFILE);
+    setMbtiState(null);
+    setFavorites([]);
+    setHistory([]);
+    syncQuietly(apiClient.resetState());
   }, []);
 
   return (

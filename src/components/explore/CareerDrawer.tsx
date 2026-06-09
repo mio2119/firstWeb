@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { X, BookOpen, Clock, AlertTriangle, ArrowRight, BrainCircuit, Heart, Loader2 } from 'lucide-react';
 import { useData } from '../../hooks/useData';
+import { useUser } from '../../context/UserContext';
 import type { CareerDetail } from '../../data/types/explore';
 
 interface CareerDrawerProps {
@@ -13,7 +14,10 @@ interface CareerDrawerProps {
 
 const CareerDrawer: React.FC<CareerDrawerProps> = ({ careerId, onClose }) => {
   const navigate = useNavigate();
+  const { toggleFavorite, isFavorite, addToHistory } = useUser();
   const { data, loading, error } = useData<CareerDetail>(`data/explore/careers_detail/${careerId}.json`);
+  const favoriteId = `career:${careerId}`;
+  const saved = isFavorite(favoriteId);
   const relatedMajor = useMemo(() => data?.relatedMajors?.[0] ?? '', [data]);
   const friendlyError = useMemo(() => {
     if (!error) return null;
@@ -23,6 +27,34 @@ const CareerDrawer: React.FC<CareerDrawerProps> = ({ careerId, onClose }) => {
     return error;
   }, [error]);
   const isMissingDetail = friendlyError === '暂无该职业的详细信息';
+
+  useEffect(() => {
+    if (!data) return;
+    addToHistory({
+      type: 'browsing',
+      title: `查看职业：${data.title}`,
+      path: `/explore?career=${encodeURIComponent(careerId)}`,
+      content: `${data.category} · ${data.definition}`
+    });
+  }, [addToHistory, careerId, data]);
+
+  const handleFavorite = () => {
+    if (!data) return;
+    toggleFavorite({
+      id: favoriteId,
+      type: 'career',
+      title: data.title,
+      subtitle: `${data.category} · ${data.relatedMajors.slice(0, 2).join(' / ')}`,
+      tags: data.relatedMajors,
+      path: `/explore?career=${encodeURIComponent(careerId)}`
+    });
+  };
+
+  const handleRelatedMajor = () => {
+    const query = relatedMajor || data?.title || '';
+    onClose();
+    navigate(`/admissions?search=${encodeURIComponent(query)}`);
+  };
 
   if (!careerId) return null;
 
@@ -210,12 +242,21 @@ const CareerDrawer: React.FC<CareerDrawerProps> = ({ careerId, onClose }) => {
 
          {/* --- Footer Actions --- */}
          <div className="relative z-10 p-6 border-t border-slate-200 bg-white flex gap-4 shrink-0">
-             <button className="flex-1 py-4 rounded-xl border border-slate-200 text-slate-500 font-bold hover:bg-slate-50 flex items-center justify-center gap-2 transition-colors">
-                 <Heart className="w-4 h-4" />
-                 收藏
+             <button
+                onClick={handleFavorite}
+                disabled={!data}
+                className={`flex-1 py-4 rounded-xl border font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                  saved
+                    ? 'border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100'
+                    : 'border-slate-200 text-slate-500 hover:bg-slate-50'
+                }`}
+            >
+                 <Heart className={`w-4 h-4 ${saved ? 'fill-rose-500 text-rose-500' : ''}`} />
+                 {saved ? '已收藏' : '收藏'}
              </button>
              <button 
-                onClick={() => navigate(`/admissions?search=${encodeURIComponent(relatedMajor || data?.title || '')}`)}
+                onClick={handleRelatedMajor}
+                disabled={!data}
                 className="flex-[2] py-4 rounded-xl bg-[#0A2463] text-white font-bold hover:bg-amber-600 flex items-center justify-center gap-2 shadow-lg shadow-[#0A2463]/20 transition-all"
             >
                  <BookOpen className="w-4 h-4" />

@@ -35,6 +35,46 @@
     "slotPrompts": { "uni": "slot_uni" }
   },
   {
+    "id": "major_black_box",
+    "keywords": ["专业黑盒", "黑盒", "看不懂专业", "专业名字", "专业到底学什么"],
+    "regex": ["专业.*黑盒", "黑盒.*专业"],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "major_black_box"
+  },
+  {
+    "id": "major_decode",
+    "keywords": ["专业解码", "解码专业", "课程体系", "能力要求", "专业画像", "专业拆解"],
+    "regex": ["(解码|拆解).*(专业|课程|能力)", "(课程体系|能力要求).*(职业|路径|风险)?"],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "major_decode"
+  },
+  {
+    "id": "recommendation_reason",
+    "keywords": ["推荐理由", "为什么推荐", "为何推荐", "适合我吗", "匹配原因", "推荐这个专业"],
+    "regex": ["(为什么|为何).*(推荐|适合)", "(推荐|匹配).*(理由|原因)"],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "recommendation_reason"
+  },
+  {
+    "id": "risk_explain",
+    "keywords": ["风险提示", "风险", "坑", "避坑", "不适合", "注意什么", "难点"],
+    "regex": ["(风险|避坑|难点).*(专业|路径|就业|课程)?", "(不适合|要注意).*(什么|哪些|专业)?"],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "risk_explain"
+  },
+  {
+    "id": "career_path",
+    "keywords": ["职业路径", "职业发展", "就业路径", "未来做什么", "毕业做什么", "岗位路径", "发展路径"],
+    "regex": ["(职业|就业|岗位).*(路径|发展|方向)", "(毕业|以后|未来).*(做什么|岗位|职业)"],
+    "negative": [],
+    "requiredSlots": [],
+    "templateGroup": "career_path"
+  },
+  {
     "id": "major_choice",
     "keywords": ["专业", "学什么", "选什么专业", "前景", "就业", "方向", "major"],
     "regex": [],

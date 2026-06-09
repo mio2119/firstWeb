@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T04:30:41.154Z",
+  "generatedAt": "2026-06-09T07:13:59.137Z",
   "summary": {
     "totalFiles": 17,
     "parsedFiles": 17,
@@ -10,9 +10,9 @@
       "quizQuestions": 82,
       "universities": 59,
       "careers": 30,
-      "qaTemplateGroups": 15,
-      "qaTemplateVariants": 86,
-      "qaIntents": 9
+      "qaTemplateGroups": 20,
+      "qaTemplateVariants": 96,
+      "qaIntents": 14
     }
   },
   "parseErrors": [],

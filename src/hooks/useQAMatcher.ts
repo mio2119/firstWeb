@@ -82,15 +82,24 @@ const slotMaps = {
     uni_thu: '清华大学',
     uni_fdu: '复旦大学',
     uni_sysu: '中山大学',
+    uni_jnu: '暨南大学',
     uni_scut: '华南理工大学',
-    uni_szu: '深圳大学'
+    uni_szu: '深圳大学',
+    uni_scnu: '华南师范大学'
   },
   major: {
     major_cs: '计算机科学与技术',
     major_law: '法学',
     major_finance: '金融学',
     major_med: '临床医学',
-    major_ai: '人工智能'
+    major_ai: '人工智能',
+    major_software: '软件工程',
+    major_fintech: '金融科技',
+    major_electronics: '电子信息',
+    major_journalism: '新闻传播',
+    major_ir: '国际关系',
+    major_psychology: '心理学',
+    major_education: '教育学'
   },
   career: {
     career_pm: 'AI 产品经理',

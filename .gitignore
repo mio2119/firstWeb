@@ -29,6 +29,8 @@ dist-ssr
 *.local
 
 # Workbench runtime
+.workbench/
+.codex-workbench/memory/
 backend/runtime/
 docs/workbench/latest-report.json
 
